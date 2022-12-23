@@ -13,6 +13,7 @@
   "author": "Sahil",
   "license": "ISC",
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.8",
@@ -20,7 +21,6 @@
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.3",
     "mongoose": "^5.4.6",
-    "node-sass": "^8.0.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
   }
