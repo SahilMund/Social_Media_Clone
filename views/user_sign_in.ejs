@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/css/user_sign_in.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- <h1>Sign In</h1> -->
+
+<!-- <form action="/users/create-session" method="POST">
+    <input type="email" name="email" placeholder="Email"  required>
+    <input type="password" name="password" placeholder="Password"  required>
+    <input type="submit" value="Sign In">
+
+</form> -->
+
+<div class="container">
+    <div class="wrapper">
+        <form action="/users/create-session" method="POST" name="Login_Form" class="form-signin">
+            <h3 class="form-signin-heading">Welcome! Please Sign In</h3>
+
+            <input type="email" class="form-control" name="email" placeholder="Email Address" required="" autofocus="" />
+            <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
+
+            <input type="submit" value="Sign In" class="btn btn-lg btn-primary btn-block"></input>
+
+            <p>Don't have an account? <a href="/users/sign-up">Signup</a> 
+                ,it's free.</p> 
+        </form>
+    </div>
+</div>
+
+ 
