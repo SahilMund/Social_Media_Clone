@@ -12,6 +12,8 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo')(session);
 
+
+
 //middleware used to parse the data coming from the ejs form
 app.use(express.urlencoded({ extended: true }));
 
