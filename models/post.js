@@ -13,11 +13,11 @@ const postSchema = new mongoose.Schema({
         ref: 'User'
 
     },
-    // post_pic: {
-    //     type: String,
-    //     required:true
+    postpic: {
+        type: String,
+        required:true
 
-    // },
+    },
     // include the array of ids of all comments in this post schema itself
     comments: [
         {
@@ -31,20 +31,21 @@ const postSchema = new mongoose.Schema({
 
 
 
-// let storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, path.join(__dirname, '..', AVATAR_PATH));
-//     },
-//     filename: function (req, file, cb) {
-//         console.log(file);
-//       cb(null, file.fieldname + '-' + Date.now());
-//     }
-//   });
+let poststorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        console.log(path.join(__dirname, '..', POST_PATH));
+      cb(null, path.join(__dirname, '..', POST_PATH));
+    },
+    filename: function (req, file, cb) {
+        console.log(file);
+      cb(null, file.fieldname + '-' + Date.now());
+    }
+  });
 
 
-// // static functions
-// postSchema.statics.uploadedPost = multer({storage:  storage}).single('post_pic');
-// postSchema.statics.avatarPath = POST_PATH;
+// static functions
+postSchema.statics.uploadedPost = multer({storage:  poststorage}).single('postpic');
+postSchema.statics.postPath = POST_PATH;
 
 
 const Post = mongoose.model('Post', postSchema);
