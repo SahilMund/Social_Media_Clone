@@ -1,11 +1,12 @@
 {   
     // method to submit the form data for new post using AJAX
     let createPost = function(){
-        let newPostForm = $('#new-post-forms');
+        let newPostForm = $('#new-post-formss');
+        
 
         newPostForm.submit(function(e){
             e.preventDefault();
-
+            // var data = new FormData($('#uploadForm')[0]);
             $.ajax({
                 type: 'post',
                 url: '/posts/create',

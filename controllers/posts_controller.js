@@ -3,6 +3,7 @@ const Comment = require('../models/comment');
 const fs = require('fs');
 const path = require('path');
 
+// NOTE : Currently not using this function
 module.exports.createOld = async function(req, res){
     try{
         let post = await Post.create({
@@ -67,20 +68,20 @@ module.exports.create = function(req, res){
             let newPost = await Post.create(post);
 
             // if (req.xhr){
-                // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
-                // newPost = await newPost.populate('user', 'name').execPopulate();
-                // console.log("call -3 " , newPost)
+            //     //if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+            //     newPost = await newPost.populate('user', 'name').execPopulate();
+            //     console.log("call -3 " , newPost)
 
-                // return res.status(200).json({
-                //     data: {
-                //         post: newPost
-                //     },
-                //     message: "Post created!"
-                // });
+            //     return res.status(200).json({
+            //         data: {
+            //             post: newPost
+            //         },
+            //         message: "Post created!"
+            //     });
             // }
     
             req.flash('success', 'Post published!');
-        return res.redirect('back');
+            return res.redirect('back');
         }); 
 
     }catch(err){
