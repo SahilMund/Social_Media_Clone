@@ -54,16 +54,15 @@ module.exports.create = function(req, res){
             console.log(post);
             if (req.file){
 
-                if (post.postpic){
-                    fs.unlinkSync(path.join(__dirname, '..', post.postpic));
-                }
-                console.log("call -1")
+                // if (post.postpic){
+                //     fs.unlinkSync(path.join(__dirname, '..', post.postpic));
+                // }
 
                 // this is saving the path of the uploaded file into the avatar field in the user
-                post.postpic = Post.postPath + '/' + req.file.filename;
+                // console.log(req.file.mimetype.split("/")[0])
+                
+                post.postpic =  Post.postPath + '/' + req.file.filename ;
             }
- 
-            console.log("call -2")
 
             let newPost = await Post.create(post);
 

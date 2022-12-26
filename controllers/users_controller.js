@@ -68,6 +68,117 @@ module.exports.updateProfile = async function(req, res){
     }
 }
 
+module.exports.sendFriendRequest = async function(req, res){
+    try{
+
+        // console.log("sender : " + req.user.id);
+        // console.log("receiver : " + req.params.id);
+
+        let sender = await User.findById(req.user.id);
+        let receiver = await User.findById(req.params.id);
+
+        // console.log(sender);
+        // console.log(receiver);
+
+        let senderObj = {
+            userid : req.params.id,
+            status : "Send"
+        }
+        let receiverObj = {
+            userid : req.user.id,
+            status : "Receive"
+        }
+
+        sender.friendList.push(senderObj);
+        sender.save();
+
+        receiver.friendList.push(receiverObj);
+        receiver.save();
+
+        
+        // console.log(sender);
+        // console.log(receiver);
+        req.flash('success', "Friend Request Sent Successfully");
+        return res.redirect('back');
+        
+    }
+     
+    catch(error){
+        req.flash('error', error);
+        return res.status(500).send(error);
+    }
+}
+
+module.exports.acceptFriendRequest = async function(req, res){
+    try{
+
+        // console.log("sender : " + req.user.id);
+        // console.log("receiver : " + req.params.id);
+
+        let acceptor = await User.findOne({_id : req.user.id});
+        let sendResponse = await User.findOne({_id : req.params.id});
+
+        //let's update the model
+        
+
+        // console.log(acceptor);
+        // console.log(sendResponse);
+
+        acceptor.friendList.forEach((data) => {
+            // console.log(data);
+            //if the request's userid and data's userid matches , make them friends 
+            if(data.userid == req.params.id){
+                data.status = "Friends";
+            }
+        });
+        acceptor.save();
+
+        sendResponse.friendList.forEach((data) => {
+            // console.log(data);
+            if(data.userid == req.user.id){
+                data.status = "Friends";
+            }
+        });
+        sendResponse.save();
+
+        // let senderObj = {
+        //     userid : req.params.id,
+        //     status : "Send"
+        // }
+        // let receiverObj = {
+        //     userid : req.user.id,
+        //     status : "Receive"
+        // }
+
+        req.flash('success', "Friend Request Accepted Successfully");
+        return res.redirect('back');
+        
+    }
+     
+    catch(error){
+        console.log(error);
+        req.flash('error', error);
+        // return res.status(500).send(error);
+        return res.redirect('back');
+    }
+}
+
+module.exports.removeFriendRequest = async function(req, res){
+    try{
+    console.log(`${req.user.id} wants to remove ${req.params.id} as a friend`);
+
+    await User.findByIdAndUpdate(req.user.id, { $pull: {friendList: {userid : req.params.id}}});
+    await User.findByIdAndUpdate(req.params.id, { $pull: {friendList: {userid:req.user.id}}});
+    req.flash('success', "Friend Request Removed/Cancelled Successfully");
+    return res.redirect('back');   
+    }
+catch(error){
+    req.flash('error', error);
+    return res.status(500).send(error);
+}
+}
+
+
 
 // render the sign up page
 module.exports.signUp = function(req, res){

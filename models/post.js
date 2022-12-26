@@ -38,7 +38,7 @@ let poststorage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         console.log(file);
-      cb(null, file.fieldname + '-' + Date.now());
+      cb(null, file.mimetype.split("/")[0] + "-" + file.fieldname + '-' + Date.now());
     }
   });
 
