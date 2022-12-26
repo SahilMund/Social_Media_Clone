@@ -3,7 +3,7 @@
 (Inspired from Facebook, You can use some code from Codeial too!)
 Required features :- 
 
-1. Implementing Friendship   --- half DONE
+1. Implementing Friendship   ---  DONE
     a. Sending and accepting friend requests
 
 2. Chatting
@@ -17,13 +17,14 @@ Required features :-
     a. Images
     b. Videos (Optional)
 
-5. User wall
+5. User wall            ---DONE
     a. Recent posts by user
 
 6. Adding more social authentication strategy (Github)    --DONE
 
 7. Reactions to Posts and Comments (such as Love, Haha, Wow, Sad, Angry)
 
+-----------------------------------------------------------------
 
   <% if(locals.user){ %>
             <% for(u of all_users){%>

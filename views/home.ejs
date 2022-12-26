@@ -1,80 +1,14 @@
 <link rel="stylesheet" href="/css/home.css">
 
-<div id="home-container">
-    <section id="feed-posts">
-            <h4>Posts</h4>
 
-    
-            <% if(locals.user){ %>
-            <form action="/posts/create" id="new-post-form"  method="POST" enctype="multipart/form-data">
-                <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
-                <input type="file" name="postpic" placeholder="Post Picture" required>
-                <input type="submit" value="Post">
-            </form>
-            <% } %>
-        
-            <div id="posts-list-container">
-                <ul>
-                    <% for(post of posts){ %>
-                        
-                    <%- include('_post') -%>
-                        
-                    <%} %>
-                </ul>
-            </div>
-        </section>
 
-        
-        <section id="user-friends">
-            <h4>Friends</h4>
+            <!-- <% if(locals.user.usertype == "Organization")  %> -->
+            <!-- <%- include('_organization_home_page') -%>
+          <% } else { %>
+                <%- include('_personal_home_page') -%>
+            <% } %> --> -->
 
-            <% if(locals.user){ %>
-            <% for(u of all_users){%>
-    <% if (locals.user.id != u.id) {%> 
-    <p>
-         <%  if( sendList.includes(u.id)){ %>
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-            &nbsp; 
-            <a href="/users/profile/friends/cancel-request/<%= u.id %>"> Cancel Request </a>
-    
-            <% } else if( receiveList.includes(u.id)){ %>
-                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-                &nbsp;
-                <a href="/users/profile/friends/accept-request/<%= u.id %>"> Accept Request </a>
-        
-                <% } else if( fList.includes(u.id)){ %>
-                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-                    &nbsp;
-                    <a href="/users/profile/friends/remove-friend/<%= u.id %>"> Remove Friend </a>
-            
-             <% } else {%>
-                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-                &nbsp;
-            <a href="/users/profile/friends/send-request/<%= u.id %>">Add Friend</a>
-    
-            <% } %> 
-    </p>
-    <% }else { %>
 
-        <a href="/users/profile/<%= u.id %>"><%= u.name %> | My Profile</a>
-        
-        <% } %>
-<% } %>
-            
-
-<% } else { %>
-
-    <!--  IF USER is not logged in -->
-
-<% for(u of all_users){%>
-
-  <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-
-                </p>
-                <% } %>
-                <% } %>
-        </section>
-</div>
 
 
 

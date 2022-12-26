@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type: String
 
     },
+    usertype : {
+        type: String,
+        required: true
+    },
 
     //to implement friend request feature
     friendList:[{

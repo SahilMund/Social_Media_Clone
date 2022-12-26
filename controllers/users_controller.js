@@ -119,13 +119,8 @@ module.exports.acceptFriendRequest = async function(req, res){
         let sendResponse = await User.findOne({_id : req.params.id});
 
         //let's update the model
-        
-
-        // console.log(acceptor);
-        // console.log(sendResponse);
 
         acceptor.friendList.forEach((data) => {
-            // console.log(data);
             //if the request's userid and data's userid matches , make them friends 
             if(data.userid == req.params.id){
                 data.status = "Friends";
@@ -141,15 +136,6 @@ module.exports.acceptFriendRequest = async function(req, res){
         });
         sendResponse.save();
 
-        // let senderObj = {
-        //     userid : req.params.id,
-        //     status : "Send"
-        // }
-        // let receiverObj = {
-        //     userid : req.user.id,
-        //     status : "Receive"
-        // }
-
         req.flash('success', "Friend Request Accepted Successfully");
         return res.redirect('back');
         
@@ -158,7 +144,6 @@ module.exports.acceptFriendRequest = async function(req, res){
     catch(error){
         console.log(error);
         req.flash('error', error);
-        // return res.status(500).send(error);
         return res.redirect('back');
     }
 }
@@ -205,7 +190,7 @@ module.exports.signIn = function(req, res){
 
 
 // get the sign up data
-module.exports.create = function(req, res){
+module.exports.createOld = function(req, res){
     if (req.body.password != req.body.confirm_password){
         req.flash('error', 'Passwords do not match');
         return res.redirect('back');
@@ -227,6 +212,56 @@ module.exports.create = function(req, res){
 
     });
 }
+
+// get the sign up data
+module.exports.create = function(req, res){
+
+    try{
+    if (req.body.password != req.body.confirm_password){
+        req.flash('error', 'Passwords do not match');
+        return res.redirect('back');
+    }
+
+    //as our form is multipart form, so we can't read it using req.params, so need to use multer req object
+    User.uploadedAvatar(req, res, function(err){
+        if (err) {console.log('*****Multer Error: ', err)}
+        
+    User.findOne({email: req.body.email}, function(err, user){
+        if(err){req.flash('error', err); return}
+
+        if (req.file){
+            // this is saving the path of the uploaded file into the avatar field in the user
+            req.body.avatar = User.avatarPath + '/' + req.file.filename;
+        }
+
+
+        if (!user){
+            try{
+                console.log(req.body);
+                User.create(req.body, function(err, user){
+                    if(err){req.flash('error', err); return}
+                    req.flash('success', 'You have signed up, login to continue!');
+                    return res.redirect('/users/sign-in');
+                });
+            }
+            catch(err){
+                req.flash('error', err);
+                return res.redirect('back');
+            }
+        }else{
+            req.flash('error', 'Email already exists, Please SignIn to continue');
+            return res.redirect('back');
+        }
+
+    });
+});
+    } catch(err){
+        console.log(err);
+        req.flash('error', err);
+        return res.redirect('back');
+    }
+}
+
 
 // sign in and create a session for the user
 module.exports.createSession = function(req, res){

@@ -44,8 +44,19 @@ module.exports.home = async function(req, res){
            
         }
 
+        if(req.user?.usertype == "Organization"){
+            return res.render('organization_home_page', {
+                title: "Codeial | Home",
+                posts:  posts,
+                all_users: users,
+                fList:fList,
+                sendList:sendList,
+                receiveList:receiveList
+    
+            });
+        }
         
-        return res.render('home', {
+        return res.render('personal_home_page', {
             title: "Codeial | Home",
             posts:  posts,
             all_users: users,
@@ -54,6 +65,8 @@ module.exports.home = async function(req, res){
             receiveList:receiveList
 
         });
+
+
 
     }catch(err){
         console.log('Error', err);
