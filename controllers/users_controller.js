@@ -116,7 +116,7 @@ module.exports.acceptFriendRequest = async function(req, res){
         // console.log("receiver : " + req.params.id);
 
         let acceptor = await User.findOne({_id : req.user.id});
-        let sendResponse = await User.findOne({_id : req.params.id});
+        let requestor = await User.findOne({_id : req.params.id});
 
         //let's update the model
 
@@ -128,13 +128,13 @@ module.exports.acceptFriendRequest = async function(req, res){
         });
         acceptor.save();
 
-        sendResponse.friendList.forEach((data) => {
+        requestor.friendList.forEach((data) => {
             // console.log(data);
             if(data.userid == req.user.id){
                 data.status = "Friends";
             }
         });
-        sendResponse.save();
+        requestor.save();
 
         req.flash('success', "Friend Request Accepted Successfully");
         return res.redirect('back');
@@ -222,10 +222,13 @@ module.exports.create = function(req, res){
         return res.redirect('back');
     }
 
+    console.log("******* 1 ***********"  , req.file)
+
     //as our form is multipart form, so we can't read it using req.params, so need to use multer req object
     User.uploadedAvatar(req, res, function(err){
         if (err) {console.log('*****Multer Error: ', err)}
         
+        console.log("******* 2 ***********"  , req.file)
     User.findOne({email: req.body.email}, function(err, user){
         if(err){req.flash('error', err); return}
 

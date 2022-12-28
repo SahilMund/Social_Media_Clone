@@ -14,8 +14,16 @@ module.exports.home = async function(req, res){
             path: 'comments',
             populate: {
                 path: 'user'
+            },
+            
+         options:{
+            sort:{
+                'createdAt':-1
+            }},
+            populate: {
+                path: 'likes' // for comment likes
             }
-        });
+        }).populate('likes');  // for post likes
     
         
         let users = await User.find({});
@@ -23,12 +31,13 @@ module.exports.home = async function(req, res){
         if(req.user){
             let currentUser = await User.findById(req.user._id);
             // console.log(users);
-            let myFriendList = currentUser.friendList;
+            let myFriendList = currentUser.friendList; // [{},{}]
 
             fList = myFriendList.filter((ele) => {
                return ele.status == "Friends"
-            });
-            fList = fList.map(a => a.userid);
+            }); //[{userid,status,{}}]
+            fList = fList.map(a => a.userid); // [userid1,id2]
+
             sendList = myFriendList.filter((ele) => {
                 return ele.status == "Send"
             });
@@ -38,9 +47,9 @@ module.exports.home = async function(req, res){
             });
             receiveList = receiveList.map(a=> a.userid);
             
-            console.log("FRIENDS " , fList);
-            console.log("sendList " , sendList);
-            console.log("receiveList " , receiveList);
+            // console.log("FRIENDS " , fList);
+            // console.log("sendList " , sendList);
+            // console.log("receiveList " , receiveList);
            
         }
 

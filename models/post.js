@@ -24,6 +24,12 @@ const postSchema = new mongoose.Schema({
             type:  mongoose.Schema.Types.ObjectId,
             ref: 'Comment'
         }
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like'
+        }
     ]
 },{
     timestamps: true
@@ -44,7 +50,22 @@ let poststorage = multer.diskStorage({
 
 
 // static functions
-postSchema.statics.uploadedPost = multer({storage:  poststorage}).single('postpic');
+postSchema.statics.uploadedPost = multer({storage:poststorage,
+    fileFilter:function(req,file,cb) {
+        //checks if file type is image or video
+    if(file.mimetype.split("/")[0] =='image' || file.mimetype.split("/")[0] =='video'){
+        //for allowing upload of ile
+        cb(null, true);
+    }
+    else{
+        //for reject file
+        cb(null,false)
+        //passing a error instead of rejecting 
+        // cb(new Error('I don\'t have a clue!'))
+    }
+}
+}).single('postpic');
+// postSchema.statics.uploadedPost = multer({storage:  poststorage}).single('postpic');
 postSchema.statics.postPath = POST_PATH;
 
 

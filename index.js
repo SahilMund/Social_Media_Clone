@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
+const kue = require('kue');
 
 const port = 8000; // Each services are recognized by PORT numbers
 const expressLayouts = require('express-ejs-layouts');
@@ -28,6 +29,9 @@ app.use(express.static('./assets'));
 
 // make the uploads path available to the browser -- For multer
 app.use('/uploads', express.static(__dirname + '/uploads'));
+
+// to see the kue-dashboard  --> http://localhost:8000/kue-api/
+// app.use("/kue-api/", kue.app);
 
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout

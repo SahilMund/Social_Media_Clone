@@ -11,7 +11,6 @@
 //         this.postContainer = $(`#post-${postId}`);
 //         this.newCommentForm = $(`#post-${postId}-comments-form`);
 
-
 //         this.createComment(postId);
 
 //         let self = this;
@@ -37,8 +36,8 @@
 //                     $(`#post-comments-${postId}`).prepend(newComment);
 //                     pSelf.deleteComment($(' .delete-comment-button', newComment));
 
-//                     $(`#post-${postId}-comments-form`).children()[0].value = "";
-
+//                     // CHANGE :: enable the functionality of the toggle like button on the new comment
+//                     new ToggleLike($(' .toggle-like-button', newComment));
 //                     new Noty({
 //                         theme: 'relax',
 //                         text: "Comment published!",
@@ -59,7 +58,8 @@
 
 
 //     newCommentDom(comment){
-//         // I've added a class 'delete-comment-button' to the delete comment link and also id to the comment's li
+//         // CHANGE :: show the count of zero likes on this comment
+
 //         return $(`<li id="comment-${ comment._id }">
 //                         <p>
                             
@@ -70,8 +70,16 @@
 //                             ${comment.content}
 //                             <br>
 //                             <small>
-//                             <b>Commented BY :- </b>   ${comment.user.name}
+//                                 ${comment.user.name}
 //                             </small>
+//                             <small>
+                            
+//                                 <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment">
+//                                     0 Likes
+//                                 </a>
+                            
+//                             </small>
+
 //                         </p>    
 
 //                 </li>`);

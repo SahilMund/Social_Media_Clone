@@ -1,5 +1,6 @@
 ## TODOS :-
 
+linux :- qwerty123, sahil032
 (Inspired from Facebook, You can use some code from Codeial too!)
 Required features :- 
 

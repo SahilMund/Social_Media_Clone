@@ -2,6 +2,8 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 const fs = require('fs');
 const path = require('path');
+const Like = require('../models/like');
+
 
 // NOTE : Currently not using this function
 module.exports.createOld = async function(req, res){
@@ -62,10 +64,13 @@ module.exports.create = function(req, res){
                 // console.log(req.file.mimetype.split("/")[0])
                 
                 post.postpic =  Post.postPath + '/' + req.file.filename ;
+                let newPost = await Post.create(post);
+
+                req.flash('success', 'Post published!');
+                return res.redirect('back');
             }
 
-            let newPost = await Post.create(post);
-
+           
             // if (req.xhr){
             //     //if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
             //     newPost = await newPost.populate('user', 'name').execPopulate();
@@ -79,8 +84,9 @@ module.exports.create = function(req, res){
             //     });
             // }
     
-            req.flash('success', 'Post published!');
+            req.flash('error', 'Error in file type');
             return res.redirect('back');
+           
         }); 
 
     }catch(err){
@@ -97,6 +103,11 @@ module.exports.destroy = async function(req, res){
         let post = await Post.findById(req.params.id);
 
         if (post.user == req.user.id){
+
+             // CHANGE :: delete the associated likes for the post and all its comments' likes too
+             await Like.deleteMany({likeable: post, onModel: 'Post'});
+             await Like.deleteMany({_id: {$in: post.comments}});
+ 
             post.remove();
 
             await Comment.deleteMany({post: req.params.id});
@@ -119,6 +130,7 @@ module.exports.destroy = async function(req, res){
         }
 
     }catch(err){
+        console.log(err);
         req.flash('error', err);
         return res.redirect('back');
     }

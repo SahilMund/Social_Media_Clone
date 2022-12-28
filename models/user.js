@@ -24,11 +24,12 @@ const userSchema = new mongoose.Schema({
     },
     usertype : {
         type: String,
+        default : "Profile",
         required: true
     },
 
     //to implement friend request feature
-    friendList:[{
+    friendList:[{ 
         userid : {
             type:  mongoose.Schema.Types.ObjectId,
             ref: 'User' 

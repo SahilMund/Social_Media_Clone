@@ -47,7 +47,11 @@
                 &nbsp;
                 <a href="/users/profile/friends/remove-friend/<%= u.id %>"> Remove Friend </a>
         
-         <% } else {%>
+         <% } else if (u.usertype && u.usertype === "Organization"){%>
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+            &nbsp;
+        <a href="/users/profile/friends/follow-request/<%= u.id %>">Follow</a>
+        <% } else {%>
             <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             &nbsp;
         <a href="/users/profile/friends/send-request/<%= u.id %>">Add Friend</a>
@@ -78,5 +82,13 @@
     </div>
 
     <!-- importing this script for creating the comments -->
-<!-- <script src="/js/home_post_comments.js" ></script>
-<script src="/js/home_posts.js"></script> -->
+<script src="/js/home_post_comments.js" ></script>
+<!-- <script src="/js/home_posts.js"></script> -->
+<!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
+<script src="js/toggle_likes.js"></script>
+<script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>
