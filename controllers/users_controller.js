@@ -13,18 +13,6 @@ module.exports.profile = function(req, res){
 }
 
 
-// module.exports.updateProfile = function(req, res){
-//     if(req.user.id == req.params.id){
-//         User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
-//             req.flash('success', 'Updated!');
-//             return res.redirect('back');
-//         });
-//     }else{
-//         req.flash('error', 'Unauthorized!');
-//         return res.status(401).send('Unauthorized');
-//     }
-// }
-
 
 module.exports.updateProfile = async function(req, res){
    
@@ -71,14 +59,8 @@ module.exports.updateProfile = async function(req, res){
 module.exports.sendFriendRequest = async function(req, res){
     try{
 
-        // console.log("sender : " + req.user.id);
-        // console.log("receiver : " + req.params.id);
-
         let sender = await User.findById(req.user.id);
         let receiver = await User.findById(req.params.id);
-
-        // console.log(sender);
-        // console.log(receiver);
 
         let senderObj = {
             userid : req.params.id,
@@ -95,9 +77,6 @@ module.exports.sendFriendRequest = async function(req, res){
         receiver.friendList.push(receiverObj);
         receiver.save();
 
-        
-        // console.log(sender);
-        // console.log(receiver);
         req.flash('success', "Friend Request Sent Successfully");
         return res.redirect('back');
         
@@ -112,8 +91,6 @@ module.exports.sendFriendRequest = async function(req, res){
 module.exports.acceptFriendRequest = async function(req, res){
     try{
 
-        // console.log("sender : " + req.user.id);
-        // console.log("receiver : " + req.params.id);
 
         let acceptor = await User.findOne({_id : req.user.id});
         let requestor = await User.findOne({_id : req.params.id});
@@ -129,7 +106,6 @@ module.exports.acceptFriendRequest = async function(req, res){
         acceptor.save();
 
         requestor.friendList.forEach((data) => {
-            // console.log(data);
             if(data.userid == req.user.id){
                 data.status = "Friends";
             }
@@ -154,8 +130,41 @@ module.exports.removeFriendRequest = async function(req, res){
 
     await User.findByIdAndUpdate(req.user.id, { $pull: {friendList: {userid : req.params.id}}});
     await User.findByIdAndUpdate(req.params.id, { $pull: {friendList: {userid:req.user.id}}});
-    req.flash('success', "Friend Request Removed/Cancelled Successfully");
+    req.flash('success', "Friend/Follow Request Removed/Cancelled Successfully");
     return res.redirect('back');   
+    }
+catch(error){
+    req.flash('error', error);
+    return res.status(500).send(error);
+}
+}
+
+
+module.exports.followRequest = async function(req, res){
+    try{
+    console.log(`${req.user.id} wants to follow ${req.params.id}`);
+
+    let sender = await User.findById(req.user.id);
+    let receiver = await User.findById(req.params.id);
+
+        let senderObj = {
+            userid : req.params.id,
+            status : "Follower"
+        }
+        let receiverObj = {
+            userid : req.user.id,
+            status : "Following"
+        }
+
+        sender.friendList.push(senderObj);
+        sender.save();
+
+        receiver.friendList.push(receiverObj);
+        receiver.save();
+
+    req.flash('success', "You have followed the page Successfully");
+    return res.redirect('back');   
+    
     }
 catch(error){
     req.flash('error', error);
@@ -189,29 +198,6 @@ module.exports.signIn = function(req, res){
 }
 
 
-// get the sign up data
-module.exports.createOld = function(req, res){
-    if (req.body.password != req.body.confirm_password){
-        req.flash('error', 'Passwords do not match');
-        return res.redirect('back');
-    }
-
-    User.findOne({email: req.body.email}, function(err, user){
-        if(err){req.flash('error', err); return}
-
-        if (!user){
-            User.create(req.body, function(err, user){
-                if(err){req.flash('error', err); return}
-
-                return res.redirect('/users/sign-in');
-            })
-        }else{
-            req.flash('success', 'You have signed up, login to continue!');
-            return res.redirect('back');
-        }
-
-    });
-}
 
 // get the sign up data
 module.exports.create = function(req, res){
@@ -222,13 +208,10 @@ module.exports.create = function(req, res){
         return res.redirect('back');
     }
 
-    console.log("******* 1 ***********"  , req.file)
-
     //as our form is multipart form, so we can't read it using req.params, so need to use multer req object
     User.uploadedAvatar(req, res, function(err){
         if (err) {console.log('*****Multer Error: ', err)}
-        
-        console.log("******* 2 ***********"  , req.file)
+
     User.findOne({email: req.body.email}, function(err, user){
         if(err){req.flash('error', err); return}
 
@@ -282,5 +265,5 @@ module.exports.destroySession = function(req, res){
         req.flash('success', 'You have logged out!');
         return res.redirect('/');
       });
-    //return res.redirect('/');
+    
 }

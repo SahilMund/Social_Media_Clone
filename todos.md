@@ -27,33 +27,35 @@ Required features :-
 
 -----------------------------------------------------------------
 
-  <% if(locals.user){ %>
-            <% for(u of all_users){%>
-    <% for(currentUser of locals.user.friendList){%>
-    <% if (locals.user.id != u.id) {%> 
-    <p>
+----------------------
+   <!-- 
+   else { %>
 
-        <% if (currentUser.userid != u.id) {%> 
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-            &nbsp;
-        <a href="/users/profile/friends/send-request/<%= u.id %>">Add Friend</a>
+            <div class="emoji-drawer hidden">
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍   </a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>
+              </div> --> 
+            <!-- <% } %> --> 
+<!-- 
+            <div class="emoji-drawer">
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍   </a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>
+              </div> -->
 
-        <% } else if( currentUser.userid == u.id && currentUser.status == "Send"){ %>
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-            &nbsp;  <h5>Friend Request Sent</h5>
-    
-            <% } else if( currentUser.userid == u.id && currentUser.status == "Receive"){ %>
-                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-                &nbsp;
-                <a href="/users/profile/friends/accept-request/<%= u.id %>"> Accept Request </a>
-        
-                <% } else if( currentUser.status == "Friends"){ %>
-                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-                    &nbsp;
-                    <p>FRIENDS </p>
-            
-             <% } %>
-    </p>
-    <% } %>
-    <% } %>
-<% } %>
+              <!-- <div>
+
+                <a class="reaction-count-<%=post._id%>" data-likes="<%= post.likes.length %>" data-reactions="" disabled></a>
+                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍   </a>
+                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>
+                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>
+                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>
+                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>
+              </div> -->
+
+      <!-- END emoji part -->

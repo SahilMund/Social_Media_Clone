@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
             type:  mongoose.Schema.Types.ObjectId,
             ref: 'User' 
         },
-        status : { // "Sent" / "Received" / "Friends"
+        status : { // "Sent" / "Received" / "Friends"/ "Following" / "Follower"
             type: String
         }
     }]

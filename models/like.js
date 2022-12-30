@@ -11,6 +11,10 @@ const likeSchema = new mongoose.Schema({
         require: true,
         refPath: 'onModel' // To define this is dyanmic reference
     },
+    reaction:{
+        type: String, // Like, Love, Haha, Wow, Sad, Angry
+        required:true
+    },
     // this field is used for defining the type of the liked object since this is a dynamic reference
     onModel: {
         type: String,

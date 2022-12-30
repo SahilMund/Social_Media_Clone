@@ -1,8 +1,9 @@
 <li id="comment-<%= comment._id %>">
     <p>
+        <!-- <%= comment %> -->
             <% if (locals.user && locals.user.id == comment.user){ %>
                 <small>
-                    <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>">X</a>
+                    <a class="delete-comment-button" href="/comments/destroy/<%= comment._id %>">X</a>
                 </small>
             <% } %>
             <%= comment.content %>
@@ -14,11 +15,11 @@
             <!-- study about the data attribute -->
             <small>
                 <% if (locals.user){ %>
-                    <a class="toggle-like-button" data-likes="<%= comment.likes.length %>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
-                            <%= comment.likes.length %> Likes
+                    <a class="toggle-like-button" data-likes="<%= comment.like?.length %>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
+                            <%=  comment.likes ? comment.likes.length :0 %> Likes
                     </a>
                 <% }else{ %>
-                    <%= comment.likes.length %> Likes
+                    <%=  comment.likes? comment.likes.length : 0%> Likes
                 <% } %>
             </small>
         </p>    

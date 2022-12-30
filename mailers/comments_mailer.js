@@ -1,11 +1,11 @@
 const nodeMailer = require('../config/nodemailer');
-
+const User = require('../models/user');
 
 // this is another way of exporting a method
-exports.newComment = (comment) => {
+exports.newComment = async (comment) => {
     let htmlString = nodeMailer.renderTemplate({comment: comment}, '/comments/new_comment.ejs');
 
-    console.log(comment);
+   // let recipient = await User.findById(comment.user);
     nodeMailer.transporter.sendMail({
        from: '17gietuece032@gmail.com',
        to: comment.user.email,

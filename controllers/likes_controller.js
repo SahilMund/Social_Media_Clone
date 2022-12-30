@@ -3,10 +3,9 @@ const Post =  require("../models/post");
 const Comment = require('../models/comment');
 
 
-module.exports.toggleLike = async function(req, res){
+module.exports.handleReactions = async function(req, res){
     try{
 
-        // likes/toggle/?id=abcdef&type=Post
         let likeable;
         let deleted = false;
 
@@ -19,38 +18,107 @@ module.exports.toggleLike = async function(req, res){
 
 
         // check if a like already exists
-        let existingLike = await Like.findOne({
+        //  Case-1 : Exists with Reaction
+        let existingLikeWithReaction = await Like.findOne({
             likeable: req.query.id,
+            reaction:req.query.reaction,
+            onModel: req.query.type,
+            user: req.user._id
+        })
+
+         //  Case-2 : Exists without Reaction
+        let existingLikeWithOutReaction = await Like.findOne({
+            likeable: req.query.id,
+            // reaction:req.query.reaction,
             onModel: req.query.type,
             user: req.user._id
         })
 
         // if a like already exists then delete it
-        if (existingLike){
-            likeable.likes.pull(existingLike._id);
-            likeable.save();
+        if (existingLikeWithOutReaction){
 
-            existingLike.remove();
-            deleted = true;
+            if(existingLikeWithReaction){
+                likeable.likes.pull(existingLikeWithReaction._id);
+                likeable.save();
+    
+                existingLikeWithReaction.remove();
+                deleted = true;
+            }else{
+                
+                // like present with different reaction then update the reaction
+                likeable.likes.forEach(element => {
+                    if(element.id == existingLikeWithOutReaction.id){
+                        // console.log("claled inner ", req.query.reaction)
+                        element.reaction = req.query.reaction;
+                        element.save();
+                    }
+                });
+                likeable.save();
+            }
+           
 
         }else{
             // else make a new like
-
             let newLike = await Like.create({
                 user: req.user._id,
                 likeable: req.query.id,
+                reaction:req.query.reaction,
                 onModel: req.query.type
             });
 
-            likeable.likes.push(newLike._id);
+            likeable.likes.push(newLike);
             likeable.save();
-
+            
         }
+       
+        console.log("*******callig newdnewd in likes controlller",likeable);
+        
+        // Let's populate like
+        let sad = likeable.likes.filter((a) => {
+            return a.reaction == "Sad"
+         });
+        sad = sad.map(a=> a.user);
 
+        let wow = likeable.likes.filter((a) => {
+            return a.reaction == "Wow"
+         });
+        wow = wow.map(a=> a.user);
+
+        let love = likeable.likes.filter((a) => {
+            return a.reaction == "Love"
+         });
+        love = love.map(a=> a.user);
+
+        let angry = likeable.likes.filter((a) => {
+            return a.reaction == "Angry"
+         });
+        angry = angry.map(a=> a.user);
+
+        let like = likeable.likes.filter((a) => {
+            return a.reaction == "Like"
+         });
+        like = like.map(a=> a.user);
+
+    
+
+        let emojiData =  {
+            post_id : likeable._id,
+            Sad : sad,
+            Wow: wow,
+            Love:love,
+            Like : like,
+            Angry : angry
+            
+        }
+         
+        console.log("************EMOJI DATA",emojiData);
         return res.json(200, {
             message: "Request successful!",
             data: {
-                deleted: deleted
+                deleted : deleted,
+                reaction : req.query.reaction,
+                totLike : likeable.likes.length,
+                emojiData : emojiData
             }
         })
 

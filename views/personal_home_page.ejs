@@ -25,18 +25,21 @@
     </section>
 
     
-    <section id="user-friends">
+  <section class="side-bar">
+    <section id="user-friends" >
         <h4>Friends</h4>
-
+    
         <% if(locals.user){ %>
         <% for(u of all_users){%>
-<% if (locals.user.id != u.id) {%> 
-<p>
+    
+    
+    <% if (locals.user.id != u.id && u.usertype !== "Organization" ) {%> 
+    <p>
      <%  if( sendList.includes(u.id)){ %>
         <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
         &nbsp; 
         <a href="/users/profile/friends/cancel-request/<%= u.id %>"> Cancel Request </a>
-
+    
         <% } else if( receiveList.includes(u.id)){ %>
             <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             &nbsp;
@@ -47,38 +50,100 @@
                 &nbsp;
                 <a href="/users/profile/friends/remove-friend/<%= u.id %>"> Remove Friend </a>
         
-         <% } else if (u.usertype && u.usertype === "Organization"){%>
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+         <!-- <% } else if (u.usertype && u.usertype === "Organization"){%>
+            
+            <% if( followerList.includes(u.id)) { %>
+    
+                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+            &nbsp;
+        <a href="/users/profile/friends/remove-follow-request/<%= u.id %>">Remove Follow</a> -->
+            <!-- <% } else { %>
+    
+                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             &nbsp;
         <a href="/users/profile/friends/follow-request/<%= u.id %>">Follow</a>
+                <% } %> -->
         <% } else {%>
             <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             &nbsp;
         <a href="/users/profile/friends/send-request/<%= u.id %>">Add Friend</a>
-
+    
         <% } %> 
-</p>
-<% }else { %>
-
+    </p>
+    <% }else if(u.usertype !== "Organization"){ %>  <!-- current user close -->
+    
     <a href="/users/profile/<%= u.id %>"><%= u.name %> | My Profile</a>
     
     <% } %>
-<% } %>
+    <% } %>
         
 
-<% } else { %>
-
-<!--  IF USER is not logged in -->
-
-<% for(u of all_users){%>
-
-<a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-
+    <% } else { %>  <!-- local users close -->
+    
+    <!--  IF USER is not logged in -->
+    
+    <% for(u of all_users){%>
+        <% if(u.usertype !== "Organization")  {%>
+   <p>
+    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+    
+    
             </p>
             <% } %>
             <% } %>
-
+            <% } %>
+    
         </section>
+        <hr/>
+
+    
+        <section id="Organization-page">
+            <h4>Pages</h4>
+    
+            <% if(locals.user){ %>
+            <% for(u of all_users){%>
+    <% if (locals.user.id != u.id && u.usertype === "Organization") {%> 
+    <p>
+        
+             <% if (u.usertype && u.usertype === "Organization"){%>
+                
+                <% if( followerList.includes(u.id)) { %>
+    
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                &nbsp;
+            <a href="/users/profile/friends/remove-follow-request/<%= u.id %>">Remove Follow</a>
+                <% } else { %>
+    
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                &nbsp;
+            <a href="/users/profile/friends/follow-request/<%= u.id %>">Follow</a>
+                    <% } } %>
+            
+    </p>
+    <% }else if(u.usertype === "Organization"){ %>
+    
+        <a href="/users/profile/<%= u.id %>"><%= u.name %> | My Page</a>
+        
+        <% } %>
+    <% } %>
+            
+    
+    <% } else { %>
+    
+    <!--  IF USER is not logged in -->
+    
+    <% for(u of all_users){%>
+        <% if(u.usertype === "Organization")  {%>
+    <p>
+    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+
+                </p>
+                <% } %>
+                <% } %>
+                <% } %>
+    
+            </section>
+  </section>
     </div>
 
     <!-- importing this script for creating the comments -->

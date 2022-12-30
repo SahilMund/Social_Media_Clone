@@ -1,3 +1,4 @@
+
 <li id="post-<%= post._id %>">
     <p>
         <!-- <%= post.postpic.split("/")[1].split("-")[0] %> -->
@@ -21,16 +22,72 @@
             <small>
                 <%= post.user.name %>
             </small>
-              <!-- CHANGE :: display the likes of this post, if the user is logged in, then show the link to toggle likes, else, just show the count -->
+              <!--  display the likes of this post, if the user is logged in, then show the link to toggle likes, else, just show the count -->
         <br>
-        <!-- study about the data attribute -->
+     
     <small>
         <% if (locals.user){ %>
-            <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post">
-                    <%= post.likes.length %> Likes
-            </a>
+            <!-- <%= post.likes %> Likes -->
+        <!-- start emoji part -->
+        <% if(post.emojiData){ %>
+            <!-- <%= post.likes.length %> -->
+             <span class="reaction-icon-<%=post._id%>"></span> 
+            <a class="reaction-count-<%=post._id%>" data-likes="" data-reactions="" disabled></a>
+
+            <% if(post.emojiData.post_id === post._id) { %>
+
+            <div>
+                <!-- <span class="reaction-icon"></span> -->
+                  <!-- Displaying selected emoji -->
+                  <a class="toggle-like-button" data-Like="<%=post.emojiData.like.length%>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍</a> <span class="post-reaction-like-<%=post._id%>"> <%= post.emojiData.like.length %> </span>
+                 <a class="toggle-like-button" data-Love="<%= post.emojiData.love.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>  <span class="post-reaction-love-<%=post._id%>"> <%= post.emojiData.love.length %></span>
+                   <a class="toggle-like-button" data-Sad="<%=post.emojiData.sad.length %>"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>  <span class="post-reaction-sad-<%=post._id%>">  <%= post.emojiData.sad.length %></span>
+                     <a class="toggle-like-button" data-Angry="<%= post.emojiData.angry.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>     <span class="post-reaction-angry-<%=post._id%>"> <%= post.emojiData.angry.length %></span>
+                       <a class="toggle-like-button" data-Wow="<%= post.emojiData.wow.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>       <span class="post-reaction-wow-<%=post._id%>"> <%= post.emojiData.wow.length %></span>
+                 <!-- 👍 <%= post.emojiData.like.length %>
+               
+                    ❤ <%= post.emojiData.love.length %>
+                
+                    😞 <%= post.emojiData.sad.length %>
+                
+                    😡 <%= post.emojiData.angry.length %>
+                
+                    😲 <%= post.emojiData.wow.length %> -->
+             
+            
+            </div>
+
+            <% } %>
+            
+            <div>
+              </div>
+            <% }else{ %>
+                <div>
+
+                    <a class="reaction-count-<%=post._id%>" data-likes="<%= post.likes.length %>" data-reactions="" disabled></a>
+                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍   </a>
+                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>
+                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>
+                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>
+                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>
+                  </div>
+            <% } %>
+       
+
+                <!-- end emoji part -->
+       
         <% }else{ %>
-            <%= post.likes.length %> Likes
+            <!-- <%= post.likes.length %> Likes -->
+                <p>👍 <%= post.emojiData.like.length %>
+               
+                    ❤ <%= post.emojiData.love.length %>
+                
+                    😞 <%= post.emojiData.sad.length %>
+                
+                    😡 <%= post.emojiData.angry.length %>
+                
+                    😲 <%= post.emojiData.wow.length %></p>
+
         <% } %>
     </small>
 
@@ -60,3 +117,5 @@
         </div>
         
     </li>
+
+ 

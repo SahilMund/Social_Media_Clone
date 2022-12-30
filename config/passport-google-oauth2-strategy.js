@@ -5,9 +5,6 @@ const googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const crypto = require('crypto');
 const User = require('../models/user');
 
-//MY KEYS :-
-// CLientID : - 261346878136-vbg87ph57rp7a7jonbtqufo5sb2d1gig.apps.googleusercontent.com
-//CLient Secret :- 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
 
 // tell passport to use a new strategy for google login
 passport.use(new googleStrategy({
