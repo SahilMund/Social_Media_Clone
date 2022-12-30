@@ -13,6 +13,7 @@ module.exports.handleReactions = async function(req, res){
         if (req.query.type == 'Post'){
             likeable = await Post.findById(req.query.id).populate('likes');
         }else{
+            console.log("comemnt called");
             likeable = await Comment.findById(req.query.id).populate('likes');
         }
 
@@ -71,7 +72,7 @@ module.exports.handleReactions = async function(req, res){
             
         }
        
-        console.log("*******callig newdnewd in likes controlller",likeable);
+        console.log("*******callig comments in likes controlller",likeable);
         
         // Let's populate like
         let sad = likeable.likes.filter((a) => {
@@ -118,7 +119,8 @@ module.exports.handleReactions = async function(req, res){
                 deleted : deleted,
                 reaction : req.query.reaction,
                 totLike : likeable.likes.length,
-                emojiData : emojiData
+                emojiData : emojiData,
+                likeType : req.query.type
             }
         })
 

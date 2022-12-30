@@ -19,17 +19,23 @@ class ToggleLike {
       })
         .done(function (data) {
          
-         
+        console.log();
         let postId = data.data.emojiData.post_id;
 
         let myPostReaction = data.data.reaction;
         let displayElement = $(`.reaction-count-${postId}`);
+
+        console.log(data.data.likeType);
+        let postType = data.data.likeType === "Comment" ? 'comment' : 'post'
+
+        // if(likeType)
         // displayElement.attr("data-reactions", myPostReaction);
-        $(`.post-reaction-Like-${postId}`).html(parseInt(data.data.emojiData.Like.length));
-        $(`.post-reaction-Sad-${postId}`).html(parseInt(data.data.emojiData.Sad.length));
-        $(`.post-reaction-Angry-${postId}`).html(parseInt(data.data.emojiData.Angry.length));
-        $(`.post-reaction-Love-${postId}`).html(parseInt(data.data.emojiData.Love.length));
-        $(`.post-reaction-Wow-${postId}`).html(parseInt(data.data.emojiData.Wow.length));
+        $(`.${postType}-reaction-Like-${postId}`).html(parseInt(data.data.emojiData.Like.length));
+        $(`.${postType}-reaction-Sad-${postId}`).html(parseInt(data.data.emojiData.Sad.length));
+        $(`.${postType}-reaction-Angry-${postId}`).html(parseInt(data.data.emojiData.Angry.length));
+        $(`.${postType}-reaction-Love-${postId}`).html(parseInt(data.data.emojiData.Love.length));
+        $(`.${postType}-reaction-Wow-${postId}`).html(parseInt(data.data.emojiData.Wow.length));
+        
           switch (myPostReaction) {
             case "Like": {
               $(`.reaction-icon-${postId}`).html("👍");

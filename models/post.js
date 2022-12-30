@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 const POST_PATH = path.join('/uploads/posts');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
+
 
 const postSchema = new mongoose.Schema({
     content: {
@@ -69,6 +71,11 @@ postSchema.statics.uploadedPost = multer({storage:poststorage,
 // postSchema.statics.uploadedPost = multer({storage:  poststorage}).single('postpic');
 postSchema.statics.postPath = POST_PATH;
 
-
+postSchema.plugin(deepPopulate, {
+    whitelist: [
+      'comments.user',
+      'comments.likes'
+    ]
+  });
 const Post = mongoose.model('Post', postSchema);
 module.exports = Post;

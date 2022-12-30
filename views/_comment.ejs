@@ -1,7 +1,7 @@
 <li id="comment-<%= comment._id %>">
     <p>
         <!-- <%= comment %> -->
-            <% if (locals.user && locals.user.id == comment.user){ %>
+            <% if (locals.user && locals.user.id == comment.user.id){ %>
                 <small>
                     <a class="delete-comment-button" href="/comments/destroy/<%= comment._id %>">X</a>
                 </small>
@@ -11,15 +11,72 @@
             <small>
              <b>Commented BY :- </b>   <%= comment.user.name %>
             </small>
-             <!-- CHANGE :: display the likes of this comment, if the user is logged in, then show the link to toggle likes, else, just show the count -->
-            <!-- study about the data attribute -->
-            <small>
+             <!--  display the likes of this comment, if the user is logged in, then show the link to toggle likes, else, just show the count -->
+            
+            <!-- <small>
                 <% if (locals.user){ %>
                     <a class="toggle-like-button" data-likes="<%= comment.like?.length %>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
                             <%=  comment.likes ? comment.likes.length :0 %> Likes
                     </a>
                 <% }else{ %>
                     <%=  comment.likes? comment.likes.length : 0%> Likes
+                <% } %>
+            </small> -->
+            <small>
+                <% if (locals.user){ %>
+                    <!-- <%= post.likes %> Likes -->
+                <!-- start emoji part -->
+                <!-- <%= JSON.stringify(comment.commentEmojiData) %> -->
+                <!-- <%= comment._id%> -->
+                <% if(comment.commentEmojiData){ %>
+                    <!-- <%= comment %> -->
+                     <span class="reaction-icon-<%=comment._id%>"></span> 
+                    <a class="reaction-count-<%=comment._id%>" data-likes="" data-reactions="" disabled></a>
+        
+                    <% if(comment.commentEmojiData?.post_id === comment._id) { %>
+        
+                    <div>
+                        <!-- <span class="reaction-icon"></span> -->
+                          <!-- Displaying selected emoji -->
+                          <a class="toggle-like-button" data-Like="<%=comment.commentEmojiData?.like.length%>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Like"> 👍</a> <span class="comment-reaction-like-<%=comment._id%>"> <%= comment.commentEmojiData?.like.length %> </span>
+                         <a class="toggle-like-button" data-Love="<%= comment.commentEmojiData?.love.length %>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Love"> ❤ </a>  <span class="comment-reaction-love-<%=comment._id%>"> <%= comment.commentEmojiData?.love.length %></span>
+                           <a class="toggle-like-button" data-Sad="<%=comment.commentEmojiData?.sad.length %>"  href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Sad"> 😞</a>  <span class="comment-reaction-sad-<%=comment._id%>">  <%= comment.commentEmojiData?.sad.length %></span>
+                             <a class="toggle-like-button" data-Angry="<%= comment.commentEmojiData?.angry.length %>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Angry">😡</a>     <span class="comment-reaction-angry-<%=comment._id%>"> <%= comment.commentEmojiData?.angry.length %></span>
+                               <a class="toggle-like-button" data-Wow="<%= comment.commentEmojiData?.wow.length %>" href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Wow">😲</a>       <span class="comment-reaction-wow-<%=comment._id%>"> <%= comment.commentEmojiData?.wow.length %></span>
+                       
+                    </div>
+        
+                    <% } %>
+                    
+                    <div>
+                      </div>
+                    <% }else{ %>
+                        <div>
+        
+                            <a class="reaction-count-<%=comment._id%>" data-likes="<%= comment.likes.length %>" data-reactions="" disabled></a>
+                            <a class="toggle-like-button"  href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Like"> 👍   </a>
+                            <a class="toggle-like-button"  href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Love"> ❤ </a>
+                            <a class="toggle-like-button"  href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Sad"> 😞</a>
+                            <a class="toggle-like-button"  href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Angry">😡</a>
+                            <a class="toggle-like-button"  href="/likes/toggle/?id=<%=comment._id%>&type=Comment&reaction=Wow">😲</a>
+                          </div>
+                    <% } %>
+               
+        
+                        <!-- end emoji part -->
+               
+                <% }else{ %>
+                    <!-- <%= post.likes.length %> Likes -->
+                        <p>👍 <%= comment.commentEmojiData?.like.length %>
+                       
+                            ❤ <%= comment.commentEmojiData?.love.length %>
+                        
+                            😞 <%= comment.commentEmojiData?.sad.length %>
+                        
+                            😡 <%= comment.commentEmojiData?.angry.length %>
+                        
+                            😲 <%= comment.commentEmojiData?.wow.length %></p>
+        
                 <% } %>
             </small>
         </p>    

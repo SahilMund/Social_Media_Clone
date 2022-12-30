@@ -8,7 +8,7 @@ module.exports.home = async function(req, res){
 
     try{
          // populate the user of each post
-        let posts = await Post.find({})
+         let posts = await Post.find({})
         .sort('-createdAt')
         .populate('user')
         .populate({
@@ -18,20 +18,22 @@ module.exports.home = async function(req, res){
                 path: 'user',
                 model:'User'
             },
+            populate: {
+                path: 'likes',
+                model:'Like' // for comment likes
+            },
             
          options:{
             sort:{
                 'createdAt':-1
             }},
-            populate: {
-                path: 'likes',
-                model:'Like' // for comment likes
-            },
+         
             populate: {
                 path: 'user',
                 model:'User' // for comment user
             }
-        }).populate('likes'); // for post likes
+        }).populate('likes').deepPopulate('comments.user comments.likes');
+        // for post likes
     
         
         
@@ -85,6 +87,8 @@ module.exports.home = async function(req, res){
             });
         }
 
+
+       
         // the below code is for emoji/reactions in post
         posts.forEach(ele =>{
         
@@ -128,8 +132,60 @@ module.exports.home = async function(req, res){
         //    console.log("print ele",ele.emojiData);
            
         });
-       
+
+
+        posts.forEach(postEle =>{
         
+            // console.log(postEle);
+            postEle.comments.forEach(ele => {
+
+                let csad = ele.likes.filter((a) => {
+                    return a.reaction == "Sad"
+                 });
+                csad = csad.map(a=> a.user);
+        
+                let cwow = ele.likes.filter((a) => {
+                    return a.reaction == "Wow"
+                 });
+                cwow = cwow.map(a=> a.user);
+        
+                let clove = ele.likes.filter((a) => {
+                    return a.reaction == "Love"
+                 });
+                clove = clove.map(a=> a.user);
+        
+                let cangry = ele.likes.filter((a) => {
+                    return a.reaction == "Angry"
+                 });
+                cangry = cangry.map(a=> a.user);
+        
+                let clike = ele.likes.filter((a) => {
+                    return a.reaction == "Like"
+                 });
+                clike = clike.map(a=> a.user);
+        
+        
+                   ele.commentEmojiData =  {
+                    post_id : ele._id,
+                    sad : csad,
+                    wow: cwow,
+                    love:clove,
+                    like : clike,
+                    angry : cangry
+                    
+                }
+                   ele.save();
+                   console.log("print ele",ele);
+                //    console.log("print ele",ele.emojiData);
+                   
+            });
+            // postEle.save();
+            
+        });
+        
+           
+       
+
        
         
         return res.render('personal_home_page', {
