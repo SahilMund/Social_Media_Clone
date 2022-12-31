@@ -5,6 +5,7 @@ const passport = require('passport');
 
 const usersController = require('../controllers/users_controller');
 
+
 router.get('/profile/:id', passport.checkAuthentication, usersController.profile);
 router.post('/update-profile/:id', passport.checkAuthentication, usersController.updateProfile);
 
@@ -14,6 +15,8 @@ router.get('/profile/friends/cancel-request/:id', passport.checkAuthentication, 
 router.get('/profile/friends/remove-friend/:id', passport.checkAuthentication, usersController.removeFriendRequest);
 router.get('/profile/friends/follow-request/:id', passport.checkAuthentication, usersController.followRequest);
 router.get('/profile/friends/remove-follow-request/:id', passport.checkAuthentication, usersController.removeFriendRequest);
+
+
 
 router.get('/sign-up', usersController.signUp);
 router.get('/sign-in', usersController.signIn);

@@ -53,6 +53,7 @@ module.exports.home = async function(req, res){
                 return ele.status == "Send"
             });
             sendList = sendList.map(a=> a.userid);
+            
             receiveList = myFriendList.filter((ele) => {
                 return ele.status == "Receive"
             });

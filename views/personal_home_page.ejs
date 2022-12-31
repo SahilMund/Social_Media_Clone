@@ -30,6 +30,8 @@
         <h4>Friends</h4>
     
         <% if(locals.user){ %>
+
+
         <% for(u of all_users){%>
     
     
@@ -39,17 +41,21 @@
         <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
         &nbsp; 
         <a href="/users/profile/friends/cancel-request/<%= u.id %>"> Cancel Request </a>
-    
+        
+        <i class="fa-solid fa-message <%= u.email %>"></i>
         <% } else if( receiveList.includes(u.id)){ %>
             <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             &nbsp;
             <a href="/users/profile/friends/accept-request/<%= u.id %>"> Accept Request </a>
+            <i class="fa-solid fa-message <%= u.email %>"></i>
     
             <% } else if( fList.includes(u.id)){ %>
                 <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
                 &nbsp;
                 <a href="/users/profile/friends/remove-friend/<%= u.id %>"> Remove Friend </a>
         
+                <i class="fa-solid fa-message <%= u.email %>"></i>
+
          <!-- <% } else if (u.usertype && u.usertype === "Organization"){%>
             
             <% if( followerList.includes(u.id)) { %>
@@ -67,8 +73,11 @@
             <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             &nbsp;
         <a href="/users/profile/friends/send-request/<%= u.id %>">Add Friend</a>
+        <i class="fa-solid fa-message <%= u.email %>"></i>
     
         <% } %> 
+
+        
     </p>
     <% }else if(u.usertype !== "Organization"){ %>  <!-- current user close -->
     
@@ -144,6 +153,9 @@
     
             </section>
   </section>
+
+  
+  <%- include('_chat_box') -%>
     </div>
 
     <!-- importing this script for creating the comments -->
@@ -157,3 +169,20 @@
         let toggleLike = new ToggleLike(self);
     });
 </script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
+<!-- <script src="/js/messages.js"></script> -->
+<% if (locals.user){ %>
+<script>
+    $('.fa-message').click(function(e){
+        console.log("clicked",e.target.classList[2]);
+        let receiver = e.target.classList[2];
+        $('#user-chat-box').css('display','block');
+        new ChatEngine('user-chat-box', '<%= locals.user.email %>',receiver );
+        // new LoadMessage('<%= locals.user.email %>',receiver );
+    });
+    
+</script>
+<% } %>
