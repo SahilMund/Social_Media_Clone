@@ -90,7 +90,7 @@ module.exports.home = async function(req, res){
 
 
        
-        // the below code is for emoji/reactions in post
+        // poupulating post's reaction, with it's reactions array to display in ejs
         posts.forEach(ele =>{
         
         let sad = ele.likes.filter((a) => {
@@ -134,6 +134,8 @@ module.exports.home = async function(req, res){
            
         });
 
+
+        // poupulating comment's reaction, with it's reactions array to display in ejs
 
         posts.forEach(postEle =>{
         
@@ -184,11 +186,7 @@ module.exports.home = async function(req, res){
             
         });
         
-           
-       
 
-       
-        
         return res.render('personal_home_page', {
             title: "Codeial | Home",
             posts:  posts,

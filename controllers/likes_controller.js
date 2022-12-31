@@ -72,9 +72,9 @@ module.exports.handleReactions = async function(req, res){
             
         }
        
-        console.log("*******callig comments in likes controlller",likeable);
+        // console.log("*******callig comments in likes controlller",likeable);
         
-        // Let's populate like
+        // Let's populate all the reactions for current post, to show the count/reaction
         let sad = likeable.likes.filter((a) => {
             return a.reaction == "Sad"
          });

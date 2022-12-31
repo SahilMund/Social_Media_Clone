@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="/css/chat_box.css">
-<!-- CHANGE :: Creat the code for chat box -->
+<!--code for chat box -->
 <% if (locals.user){ %>
 	<div id="user-chat-box">
 		<nav class="chat-header"><i class="fa-solid fa-xmark"></i> </nav>
 		<hr/>
 		<ul id="chat-messages-list">
-			<li class="other-message">
+			<!-- <li class="other-message">
 				<span>Other Message</span>
 			</li>
 			<li class="self-message">
@@ -13,7 +13,7 @@
 					Self Message
 				</span>
 				
-			</li>
+			</li> -->
 
 		</ul>
 		<div id="chat-message-input-container">
@@ -23,3 +23,21 @@
 
 	</div>
 <% } %>
+
+
+<% if (locals.user){ %>
+	<script>
+		$('.fa-xmark').click(function(e){
+			console.log("clicked",e.target.classList[2]);
+			
+			$('#user-chat-box').css('display','none');
+
+			location.reload(true);
+		});
+
+
+		const objDiv = document.getElementById("user-chat-box");
+       objDiv.scrollTop = objDiv.scrollHeight;
+		
+	</script>
+	<% } %>

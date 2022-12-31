@@ -1,5 +1,5 @@
 // CHANGE :: create a class to toggle likes when a link is clicked, using AJAX
-class ToggleLike {
+class HandleReaction {
   constructor(toggleElement) {
     this.toggler = toggleElement;
     this.handleReactions();
@@ -10,8 +10,6 @@ class ToggleLike {
       e.preventDefault();
       let self = this;
 
-      // console.log(this.href.split("="))
-      // let emoji = this.href.split("=")[3];
       // this is a new way of writing ajax which you might've studied, it looks like the same as promises
       $.ajax({
         type: "POST",
@@ -28,7 +26,6 @@ class ToggleLike {
         console.log(data.data.likeType);
         let postType = data.data.likeType === "Comment" ? 'comment' : 'post'
 
-        // if(likeType)
         // displayElement.attr("data-reactions", myPostReaction);
         $(`.${postType}-reaction-Like-${postId}`).html(parseInt(data.data.emojiData.Like.length));
         $(`.${postType}-reaction-Sad-${postId}`).html(parseInt(data.data.emojiData.Sad.length));

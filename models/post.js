@@ -71,6 +71,7 @@ postSchema.statics.uploadedPost = multer({storage:poststorage,
 // postSchema.statics.uploadedPost = multer({storage:  poststorage}).single('postpic');
 postSchema.statics.postPath = POST_PATH;
 
+// Pulging deep populate plugin to PostSchema
 postSchema.plugin(deepPopulate, {
     whitelist: [
       'comments.user',
