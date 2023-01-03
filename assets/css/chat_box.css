@@ -17,7 +17,10 @@ display: none;
     padding: 10px;
     height: 70%;
     background-color: white;
-    overflow: scroll }
+    /* overflow: scroll ; */
+    overflow-y: auto ;
+  
+  }
     #user-chat-box #chat-messages-list .other-message {
       text-align: left;
       padding: 5px; }

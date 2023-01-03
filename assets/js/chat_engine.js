@@ -34,7 +34,7 @@ class ChatEngine{
             });
 
             self.socket.on('populate_db_message', function(data){
-                console.log('a user joined!', data);
+                // console.log('a user joined!', data);
                 
                 data.forEach(element => {
                     
@@ -78,17 +78,17 @@ class ChatEngine{
                     user_email: self.userEmail,
                     to_user:self.receiverEmail,
                     chatroom: `FB_${self.sendId}_${self.receiverId}`,
-                    // chatroom2 : `FB_${self.receiverId}_${self.sendId}`
+                    chatroom2 : `FB_${self.receiverId}_${self.sendId}`
                 });
             }
         });
 
         self.socket.on('receive_message', function(data){
-            console.log('message received', data);
 
 
            if((data.user_email == self.userEmail && data.to_user == self.receiverEmail) || 
            data.to_user == self.userEmail && data.user_email == self.receiverEmail){
+            
             let newMessage = $('<li>');
 
             let messageType = 'other-message';
@@ -108,6 +108,9 @@ class ChatEngine{
             newMessage.addClass(messageType);
 
             $('#chat-messages-list').append(newMessage);
+
+            const ele = document.getElementById('chat-messages-list');
+            ele.scrollTop = ele.scrollHeight;
            }
         })
     }
