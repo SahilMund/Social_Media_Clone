@@ -4,7 +4,7 @@
 <div id="home-container">
     <section id="feed-posts">
             <h4>Posts</h4>
-    
+   
     <% if(locals.user){ %>
         <form action="/posts/create" id="new-post-form"  method="POST" enctype="multipart/form-data">
             <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
@@ -17,9 +17,10 @@
             <ul>
                 <% for(post of posts){ %>
                     
-                <%- include('_post') -%>
-                    
-                <%} %>
+                    <% if(post.user.usertype !== "Organization") { %>
+                        <%- include('_post') -%>
+  
+                <%} }%>
             </ul>
         </div>
     </section>
@@ -45,11 +46,12 @@
 <% if (locals.user){ %>
 <script>
     $('.fa-message').click(function(e){
+       
         console.log("clicked",e.target.classList[2]);
         let receiverMail = e.target.classList[2];
         let receiverId = e.target.classList[3];
         $('#user-chat-box').css('display','block');
-        console.log('user-chat-box', '<%= locals.user.email %>',receiverMail,receiverId,'<%= locals.user.id %>');
+        // console.log('user-chat-box', '<%= locals.user.email %>',receiverMail,receiverId,'<%= locals.user.id %>');
         new ChatEngine('user-chat-box', '<%= locals.user.email %>',receiverMail,receiverId,'<%= locals.user.id %>' );
        
     });

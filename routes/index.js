@@ -6,6 +6,7 @@ const homeController = require('../controllers/home_controller');
 
 // home route 
 router.get('/', homeController.home);
+router.get('/organization', homeController.organizationHome);
 
 
 router.use('/users', require('./users'));

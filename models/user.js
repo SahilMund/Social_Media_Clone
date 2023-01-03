@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     usertype : {
         type: String,
-        default : "Profile",
+        default : "Personal",
         required: true
     },
 

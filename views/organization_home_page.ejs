@@ -1,13 +1,41 @@
-<div>
-    <p>
-        Welcome to organization page
-    </p>
 
-    <% if(locals.user){ %>
+<link rel="stylesheet" href="/css/home.css">
+
+<div id="home-container">
+    <section id="feed-posts">
+        <p>
+            Welcome to organization page
+        </p>
+
+    
+    
+    <% if(locals.user && locals.user.usertype === "organization"){ %>
         <form action="/posts/create" id="new-post-form"  method="POST" enctype="multipart/form-data">
             <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
             <input type="file" name="postpic" placeholder="Post Picture" required>
             <input type="submit" value="Post">
         </form>
         <% } %>
-</div>
+    
+        <div id="posts-list-container">
+            <ul>
+                <% for(post of posts){ %>
+                    
+              <% if(post.user.usertype === "Organization") { %>
+              <%- include('_post') -%>
+                    
+                <%} }%>
+            </ul>
+        </div>
+    </section>
+    </div>
+
+
+
+<script src="js/post_comment_reactions.js"></script>
+<script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let PostCommentreactions = new HandleReaction(self);
+    });
+</script>

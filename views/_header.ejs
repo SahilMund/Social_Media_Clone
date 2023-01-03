@@ -5,6 +5,12 @@
                 <a href='/'>
                     FB
                 </a>
+               <% if(locals?.user?.usertype !== "Organization") {%>
+                &nbsp;&nbsp;
+                <a href='/organization'>
+                 Organization/Celebrities
+                </a>
+                <% } %>
             </p>
         </div>
     

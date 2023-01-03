@@ -30,6 +30,7 @@ module.exports.updateProfile = async function(req, res){
                 
                 user.name = req.body.name;
                 user.email = req.body.email;
+                user.password = req.body.password;
 
                 if (req.file){
 
@@ -43,6 +44,7 @@ module.exports.updateProfile = async function(req, res){
                     user.avatar = User.avatarPath + '/' + req.file.filename;
                 }
                 user.save();
+                req.flash('success', "Profile updated successfully !!");
                 return res.redirect('back');
             });
 
