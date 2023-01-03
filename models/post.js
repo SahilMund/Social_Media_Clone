@@ -39,7 +39,7 @@ const postSchema = new mongoose.Schema({
 });
 
 
-
+//setting up diskStorage for postScehma
 let poststorage = multer.diskStorage({
     destination: function (req, file, cb) {
         console.log(path.join(__dirname, '..', POST_PATH));
@@ -55,28 +55,32 @@ let poststorage = multer.diskStorage({
 // static functions
 postSchema.statics.uploadedPost = multer({storage:poststorage,
     fileFilter:function(req,file,cb) {
-        //checks if file type is image or video
+        //checks if file type is image or video, then only allow else throw an error
     if(file.mimetype.split("/")[0] =='image' || file.mimetype.split("/")[0] =='video'){
         //for allowing upload of ile
         cb(null, true);
     }
     else{
         //for reject file
-        cb(null,false)
-        //passing a error instead of rejecting 
-        // cb(new Error('I don\'t have a clue!'))
+        cb(null,false)  //passing an error instead of rejecting 
+        
     }
 }
 }).single('postpic');
+
+
 // postSchema.statics.uploadedPost = multer({storage:  poststorage}).single('postpic');
 postSchema.statics.postPath = POST_PATH;
 
-// Pulging deep populate plugin to PostSchema
+// Pulging deep populate plugin to PostSchema, to able to use deep-populate functionality
 postSchema.plugin(deepPopulate, {
-    whitelist: [
+    // using whitelist to ensure only certain paths can be populated
+    whitelist: [    
       'comments.user',
       'comments.likes'
     ]
   });
+
+
 const Post = mongoose.model('Post', postSchema);
 module.exports = Post;

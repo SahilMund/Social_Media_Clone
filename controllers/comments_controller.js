@@ -12,6 +12,7 @@ module.exports.create = async function(req, res){
         let post = await Post.findById(req.body.post);
 
         if (post){
+            //  Create a post
             let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
@@ -28,6 +29,7 @@ module.exports.create = async function(req, res){
             // commentsMailer.newComment(comment);
 
             //if queue is not present, it will create a new queue and push the job to it, else it will push the job
+            //  Using KUE to send mails [implemineting parallel jobs]
             let job = queue.create('emails', comment).save(function(err){
                 if (err){
                     console.log('Error in sending to the queue', err);
@@ -50,21 +52,21 @@ module.exports.create = async function(req, res){
 }
 
 
+//  To delete an Comment
 module.exports.destroy = async function(req, res){
 
     try{
         let comment = await Comment.findById(req.params.id);
 
-       // console.log(comment);
         if (comment.user == req.user.id){
 
             let postId = comment.post;
-
             comment.remove();
 
+            //  Remove comments from the post's comment array as well
             let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
 
-             // CHANGE :: destroy the associated likes for this comment
+             // delete the associated likes for this comment
             let likeDel = await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
 
             req.flash('success', 'Comment deleted!');

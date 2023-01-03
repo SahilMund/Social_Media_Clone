@@ -6,15 +6,10 @@ const Like = require('../models/like');
 
 
 
-
+// controller for handling post creations
 module.exports.create = function(req, res){
     try{
-        console.log("create contoroller called")
-        
-
         Post.uploadedPost(req, res, async function(err){
-
-           console.log(req.body,req.file);
          
             if (err) {console.log('*****Multer Error: ', err)}
 
@@ -24,7 +19,7 @@ module.exports.create = function(req, res){
                
             };
 
-            console.log(post);
+            
             if (req.file){
                 // this is saving the path of the uploaded file into the avatar field in the user
                 
@@ -47,7 +42,7 @@ module.exports.create = function(req, res){
   
 }
 
-
+//  Handle Deleteing a post
 module.exports.destroy = async function(req, res){
 
     try{
@@ -55,12 +50,13 @@ module.exports.destroy = async function(req, res){
 
         if (post.user == req.user.id){
 
-             // CHANGE :: delete the associated likes for the post and all its comments' likes too
-             await Like.deleteMany({likeable: post, onModel: 'Post'});
-             await Like.deleteMany({_id: {$in: post.comments}});
+            //  delete the associated likes for the post and all its comments' likes too
+            await Like.deleteMany({likeable: post, onModel: 'Post'});
+            await Like.deleteMany({_id: {$in: post.comments}});
  
             post.remove();
 
+            // deleting post's comments
             await Comment.deleteMany({post: req.params.id});
             
             req.flash('success', 'Post and associated comments deleted!');

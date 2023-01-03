@@ -1,4 +1,4 @@
-// CHANGE :: create a class to toggle likes when a link is clicked, using AJAX
+
 class HandleReaction {
   constructor(toggleElement) {
     this.toggler = toggleElement;
@@ -10,29 +10,33 @@ class HandleReaction {
       e.preventDefault();
       let self = this;
 
-      // this is a new way of writing ajax which you might've studied, it looks like the same as promises
       $.ajax({
         type: "POST",
         url: $(self).attr("href"),
       })
         .done(function (data) {
          
-        console.log();
+
+        // Getting ID on which the user has reacted , it can be post/comment
         let postId = data.data.emojiData.post_id;
 
+        // Getting the reaction on which user has clicked 
         let myPostReaction = data.data.reaction;
         let displayElement = $(`.reaction-count-${postId}`);
 
-        console.log(data.data.likeType);
+        // console.log(data.data.likeType);
+        // checking the type 
         let postType = data.data.likeType === "Comment" ? 'comment' : 'post'
 
         // displayElement.attr("data-reactions", myPostReaction);
+        // Dispalying count of all the reactions
         $(`.${postType}-reaction-Like-${postId}`).html(parseInt(data.data.emojiData.Like.length));
         $(`.${postType}-reaction-Sad-${postId}`).html(parseInt(data.data.emojiData.Sad.length));
         $(`.${postType}-reaction-Angry-${postId}`).html(parseInt(data.data.emojiData.Angry.length));
         $(`.${postType}-reaction-Love-${postId}`).html(parseInt(data.data.emojiData.Love.length));
         $(`.${postType}-reaction-Wow-${postId}`).html(parseInt(data.data.emojiData.Wow.length));
         
+        // Setting data attribute values and dispalying the icon on which the loggedin user has clicked
           switch (myPostReaction) {
             case "Like": {
               $(`.reaction-icon-${postId}`).html("👍");

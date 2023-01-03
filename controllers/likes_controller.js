@@ -9,16 +9,15 @@ module.exports.handleReactions = async function(req, res){
         let likeable;
         let deleted = false;
 
-
+        //  Checking if the reacted item is Post/Comment
         if (req.query.type == 'Post'){
             likeable = await Post.findById(req.query.id).populate('likes');
         }else{
-            console.log("comemnt called");
             likeable = await Comment.findById(req.query.id).populate('likes');
         }
 
 
-        // check if a like already exists
+        // check if a reaction already exists
         //  Case-1 : Exists with Reaction
         let existingLikeWithReaction = await Like.findOne({
             likeable: req.query.id,
@@ -35,9 +34,9 @@ module.exports.handleReactions = async function(req, res){
             user: req.user._id
         })
 
-        // if a like already exists then delete it
+        
         if (existingLikeWithOutReaction){
-
+            // if a reaction already exists with current reaction then delete it
             if(existingLikeWithReaction){
                 likeable.likes.pull(existingLikeWithReaction._id);
                 likeable.save();
@@ -46,10 +45,9 @@ module.exports.handleReactions = async function(req, res){
                 deleted = true;
             }else{
                 
-                // like present with different reaction then update the reaction
+                // if reaction is present with different reaction then update the reaction
                 likeable.likes.forEach(element => {
                     if(element.id == existingLikeWithOutReaction.id){
-                        // console.log("claled inner ", req.query.reaction)
                         element.reaction = req.query.reaction;
                         element.save();
                     }
@@ -72,7 +70,6 @@ module.exports.handleReactions = async function(req, res){
             
         }
        
-        // console.log("*******callig comments in likes controlller",likeable);
         
         // Let's populate all the reactions for current post, to show the count/reaction
         let sad = likeable.likes.filter((a) => {
@@ -112,8 +109,8 @@ module.exports.handleReactions = async function(req, res){
             
         }
          
-        console.log("************EMOJI DATA",emojiData);
-        return res.json(200, {
+        // console.log("************EMOJI DATA",emojiData);
+        return res.status(200).json( {
             message: "Request successful!",
             data: {
                 deleted : deleted,

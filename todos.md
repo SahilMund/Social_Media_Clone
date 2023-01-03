@@ -26,3 +26,31 @@ Required features :-
 7. Reactions to Posts and Comments (such as Love, Haha, Wow, Sad, Angry)
 
 -----------------------------------------------------------------
+
+```
+ let posts = await Post.find({})
+        .sort('-createdAt')
+        .populate('user')
+        .populate({
+            path: 'comments',
+            model: 'Comment',
+            populate: {
+                path: 'user',
+                model:'User'
+            },
+            populate: {
+                path: 'likes',
+                model:'Like' // for comment likes
+            },
+            
+         options:{
+            sort:{
+                'createdAt':-1
+            }},
+         
+            populate: {
+                path: 'user',
+                model:'User' // for comment user
+            }
+        }).populate('likes').deepPopulate('comments.user comments.likes');
+```

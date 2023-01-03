@@ -17,10 +17,14 @@ module.exports.chatSockets =  function(socketServer){
         socket.on('join_room', async function(data){
             console.log('joining request rec.', data);
 
+            // socket.join([data.chatroom,data.chatroom2]);
+            // socket.join([data.chatroom,data.chatroom2]);
+            console.log("chatroom2",data);
             socket.join([data.chatroom,data.chatroom2]);
 
             //emit /send an event to all the users, that user is joined with the data
-            io.in(data.chatroom,data.chatroom).emit('user_joined', data);
+            io.in(data.chatroom).emit('user_joined', data);
+            // io.in(data.chatroom,data.chatroom).emit('user_joined', data);
 
             // console.log("calling in chat soket",data);
 
@@ -62,7 +66,7 @@ module.exports.chatSockets =  function(socketServer){
             });
             // console.log(data);
 
-            // io.in(data.chatroom).emit('receive_message', data);
+            //io.in(data.chatroom).emit('receive_message', data);
             io.in(data.chatroom2).emit('receive_message', data);
             }
             catch(err){

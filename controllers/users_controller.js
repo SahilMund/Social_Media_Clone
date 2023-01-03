@@ -2,6 +2,7 @@ const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
 
+// Rendering profile pages
 module.exports.profile = function(req, res){
     User.findById(req.params.id, function(err, user){
         return res.render('user_profile', {
@@ -13,7 +14,7 @@ module.exports.profile = function(req, res){
 }
 
 
-
+// Controlller for updating users profile
 module.exports.updateProfile = async function(req, res){
    
 
@@ -32,6 +33,7 @@ module.exports.updateProfile = async function(req, res){
 
                 if (req.file){
 
+                    // Deleting the prvious profile image of the user
                     if (user.avatar){
                         fs.unlinkSync(path.join(__dirname, '..', user.avatar));
                     }
@@ -56,11 +58,14 @@ module.exports.updateProfile = async function(req, res){
     }
 }
 
+// Controller for handling Friend Requests functionality :-
 module.exports.sendFriendRequest = async function(req, res){
     try{
 
         let sender = await User.findById(req.user.id);
         let receiver = await User.findById(req.params.id);
+
+        // Creating two objects, sender and receiver and push it into the users friendlist with the status
 
         let senderObj = {
             userid : req.params.id,
@@ -96,6 +101,7 @@ module.exports.acceptFriendRequest = async function(req, res){
         let requestor = await User.findOne({_id : req.params.id});
 
         //let's update the model
+        // Updating the status from send/receive to friends from both sender/receiver's friendlist
 
         acceptor.friendList.forEach((data) => {
             //if the request's userid and data's userid matches , make them friends 
@@ -147,6 +153,7 @@ module.exports.followRequest = async function(req, res){
     let sender = await User.findById(req.user.id);
     let receiver = await User.findById(req.params.id);
 
+    // Storing follower/following status , this is for organization/celebrities page
         let senderObj = {
             userid : req.params.id,
             status : "Follower"
@@ -199,7 +206,7 @@ module.exports.signIn = function(req, res){
 
 
 
-// get the sign up data
+// get the sign up data and create an user
 module.exports.create = function(req, res){
 
     try{
@@ -223,7 +230,7 @@ module.exports.create = function(req, res){
 
         if (!user){
             try{
-                console.log(req.body);
+            
                 User.create(req.body, function(err, user){
                     if(err){req.flash('error', err); return}
                     req.flash('success', 'You have signed up, login to continue!');
@@ -255,10 +262,8 @@ module.exports.createSession = function(req, res){
     return res.redirect('/');
 }
 
+//  For handling logout functionality
 module.exports.destroySession = function(req, res){
-
-    console.log("called destroyed sesion..");
-
     
     req.logout(function(err) {
         if (err) { return next(err); }

@@ -31,18 +31,6 @@ class ChatEngine{
 
             self.socket.on('user_joined', function(data){
                 console.log('a user joined!', data);
-                
-            // let newMessage = $('<li>');
-
-            // let messageType = 'other-message';
-
-            // newMessage.append($('<sub>', {
-            //     'html': `${data.user_email} joined the chat`
-            // }));
-
-            // newMessage.addClass(messageType);
-
-            // $('#chat-messages-list').append(newMessage);
             });
 
             self.socket.on('populate_db_message', function(data){

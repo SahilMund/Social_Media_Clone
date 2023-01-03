@@ -7,47 +7,33 @@ const Like = require('../models/like');
 module.exports.home = async function(req, res){
 
     try{
-         // populate the user of each post
-         let posts = await Post.find({})
+        // populate the users,comments,likes of each post
+        let posts = await Post.find({})
         .sort('-createdAt')
         .populate('user')
+        .populate('likes')
         .populate({
-            path: 'comments',
-            model: 'Comment',
-            populate: {
-                path: 'user',
-                model:'User'
-            },
-            populate: {
-                path: 'likes',
-                model:'Like' // for comment likes
-            },
-            
-         options:{
-            sort:{
-                'createdAt':-1
-            }},
-         
-            populate: {
-                path: 'user',
-                model:'User' // for comment user
+            path:'comments',
+            options:{
+               sort:{
+                   'createdAt':-1
+               }
             }
-        }).populate('likes').deepPopulate('comments.user comments.likes');
-        // for post likes
-    
-        
-        
+        }).deepPopulate('comments.user comments.likes'); // using deepPopulate to extract comment's users and likes
+
+        // for post like
         let users = await User.find({});
         let fList , sendList,receiveList,followerList,followingList;
         if(req.user){
+            // Creating the friendlist arrays for all status of the current loggedin user
             let currentUser = await User.findById(req.user._id);
-            // console.log(users);
-            let myFriendList = currentUser.friendList; // [{},{}]
+           
+            let myFriendList = currentUser.friendList; 
 
             fList = myFriendList.filter((ele) => {  
                return ele.status == "Friends"
-            }); //[{userid1,status,{}}]
-            fList = fList.map(a => a.userid); // [userid1,id2]
+            });
+            fList = fList.map(a => a.userid);
 
             sendList = myFriendList.filter((ele) => {
                 return ele.status == "Send"
@@ -68,13 +54,10 @@ module.exports.home = async function(req, res){
                 return ele.status == "Following"
             });
             followingList = followingList.map(a=> a.userid);
-            
-            // console.log("FRIENDS " , fList);
-            // console.log("sendList " , sendList);
-            // console.log("receiveList " , receiveList);
            
         }
 
+        //  If user type is organization then render organization home page 
         if(req.user?.usertype == "Organization"){
             return res.render('organization_home_page', {
                 title: "Codeial | Home",
@@ -129,8 +112,6 @@ module.exports.home = async function(req, res){
             
         }
            ele.save();
-        //    console.log("print ele",ele);
-        //    console.log("print ele",ele.emojiData);
            
         });
 
@@ -178,11 +159,10 @@ module.exports.home = async function(req, res){
                     
                 }
                    ele.save();
-                   console.log("print ele",ele);
-                //    console.log("print ele",ele.emojiData);
+                
+              
                    
             });
-            // postEle.save();
             
         });
         

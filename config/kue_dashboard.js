@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+
+// To enable KUE-DASHBOARD
 var kue = require('kue');
 var argv = require('yargs')
 	.usage('Usage: $0 [options]')

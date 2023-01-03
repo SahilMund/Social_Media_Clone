@@ -6,18 +6,18 @@ const chatSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // comment belongs to a user
-    from_user: {
+    
+    from_user: {  // Sender
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    to_user: {
+    to_user: {  // receiver
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     }
-    ,chatroom: {
+    ,chatroom: {  // ChatRoom is stored to populate the data from db fr each user's conversation
         type: String,
         required: true
     },

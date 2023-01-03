@@ -7,7 +7,9 @@
   width: 300px;
   background: white;
   padding: 5px;
-  box-shadow: 1px 1px 1px 1px lightgrey; 
+  box-shadow: 1px 1px 1px 1px lightgrey;
+
+
 display: none;
 }
   #user-chat-box #chat-messages-list {
@@ -15,7 +17,7 @@ display: none;
     padding: 10px;
     height: 70%;
     background-color: white;
-    overflow: auto; }
+    overflow: scroll }
     #user-chat-box #chat-messages-list .other-message {
       text-align: left;
       padding: 5px; }

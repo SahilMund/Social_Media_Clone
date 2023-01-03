@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
-    //to implement friend request feature
+    //to implement friend request feature, it will be an array of objects with a status of it's friendship
     friendList:[{ 
         userid : {
             type:  mongoose.Schema.Types.ObjectId,
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
 });
 
 
-
+//setting up diskStorage for userSchema
 let userstorage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, path.join(__dirname, '..', AVATAR_PATH));
