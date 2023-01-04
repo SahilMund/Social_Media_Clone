@@ -13,3 +13,24 @@
     a{
       text-decoration:none
     }
+
+    textarea{
+      text-align: center;
+    }
+    #feed-posts{
+      display: flex;
+    }
+
+    /* .feed-posts-form-left{
+      flex: 50%;
+    }
+
+    #posts-list-container{
+      flex: 50%;
+    } */
+
+    .feed-posts-form-left{
+      width: 120%;
+      height: 450px;
+    }
+

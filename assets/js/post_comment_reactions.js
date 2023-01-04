@@ -41,14 +41,14 @@ class HandleReaction {
             case "Like": {
               $(`.reaction-icon-${postId}`).html("👍");
               displayElement.attr(`data-${myPostReaction}`, parseInt(data.data.emojiData.Like.length));
-              displayElement.html(`${parseInt(data.data.emojiData.Like.length)} ${myPostReaction}s`);
+              displayElement.html(`${parseInt(data.data.emojiData.Like.length)} ${myPostReaction}`);
               
               break;
             }
             case "Sad": {
               $(`.reaction-icon-${postId}`).html("😞");
               displayElement.attr(`data-${myPostReaction}`, parseInt(data.data.emojiData.Sad.length));
-              displayElement.html(`${parseInt(data.data.emojiData.Sad.length)} ${myPostReaction}s`);
+              displayElement.html(`${parseInt(data.data.emojiData.Sad.length)} ${myPostReaction}`);
              
               break;
             }
@@ -57,7 +57,7 @@ class HandleReaction {
               console.log(data.data.emojiData);
 
               displayElement.attr(`data-${myPostReaction}`, parseInt(data.data.emojiData.Angry.length));
-              displayElement.html(`${parseInt(data.data.emojiData.Angry.length)} ${myPostReaction}s`);
+              displayElement.html(`${parseInt(data.data.emojiData.Angry.length)} ${myPostReaction}`);
              
 
               break;
@@ -65,7 +65,7 @@ class HandleReaction {
             case "Love": {
               $(`.reaction-icon-${postId}`).html("♥");
               displayElement.attr(`data-${myPostReaction}`, parseInt(data.data.emojiData.Love.length));
-              displayElement.html(`${parseInt(data.data.emojiData.Love.length)} ${myPostReaction}s`);
+              displayElement.html(`${parseInt(data.data.emojiData.Love.length)} ${myPostReaction}`);
               
 
               break;
@@ -73,7 +73,7 @@ class HandleReaction {
             case "Wow": {
               $(`.reaction-icon-${postId}`).html("😲");
               displayElement.attr(`data-${myPostReaction}`, parseInt(data.data.emojiData.Wow.length));
-              displayElement.html(`${parseInt(data.data.emojiData.Wow.length)} ${myPostReaction}s`);
+              displayElement.html(`${parseInt(data.data.emojiData.Wow.length)} ${myPostReaction}`);
              
 
               break;

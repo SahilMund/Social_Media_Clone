@@ -1,113 +1,237 @@
+<div class="bg-white p-4 rounded shadow mt-3 post-div-main" id="post-<%= post._id %>">
+    <!-- author -->
+    <div class="d-flex justify-content-between">
+      <!-- avatar -->
+      <!-- <%= post.user %> -->
+      <div class="d-flex">
+        <img
+          src= "<%= post.user?.avatar%>"
+          alt="avatar"
+          class="rounded-circle me-2"
+          style="width: 38px; height: 38px; object-fit: cover"
+        />
+        <div>
+          <p class="m-0 fw-bold"><%= post.user.name %></p>
+          <span class="text-muted fs-7"> <%= post.postTimeStamp %> </span>
+        </div>
+      </div>
+      <!-- edit -->
 
-<li id="post-<%= post._id %>">
-    <p>
-        <!-- <%= post.postpic.split("/")[1].split("-")[0] %> -->
-            <% if (locals.user && locals.user.id == post.user.id){ %>
-                <small>
-                    <a class="delete-post-button"  href="/posts/destroy/<%= post.id %>">X</a>
-                </small>
-            <% } %>
+      <% if (locals.user && locals.user.id == post.user.id){ %>
+        
+        <small>
+            <a class="delete-post-button"  id="post1Menu" href="/posts/destroy/<%= post.id %>"> <i class="fa-solid fa-trash" 
+              style="color: crimson;"></i> </a>
+        </small>
+    <% } %>
+    </div>
+    <!-- post content -->
+    <div class="mt-3">
+      <!-- content -->
+      <div>
+        <p>
             <%= post.content %>
-            <br>
-            <% if(post.postpic.split("/")[1].split("-")[0] == "video"){ %>
-
-                <video width="320" height="240" controls>
-                    <source src="<%= post.postpic %>" type="video/mp4">
-                  Your browser does not support the video tag.
-                  </video>
-           <% } else { %>
-            <img src="<%= post.postpic %>" alt="hh" width="100">
-          <% } %>
-
-            <small>
-                <%= post.user.name %>
-            </small>
-              <!--  display the likes of this post, if the user is logged in, then show the link to toggle likes, else, just show the count -->
-        <br>
-     
-    <small>
-        <% if (locals.user){ %>
-            <!-- <%= post.likes %> Likes -->
-        <!-- start emoji part -->
-        <% if(post.emojiData){ %>
-            <!-- <%= post.likes.length %> -->
-             <span class="reaction-icon-<%=post._id%>"></span> 
-            <a class="reaction-count-<%=post._id%>" data-likes="" data-reactions="" disabled></a>
-
-            <% if(post.emojiData.post_id === post._id) { %>
-
-            <div>
-                <!-- <span class="reaction-icon"></span> -->
-                  <!-- Displaying selected emoji -->
-                  <a class="toggle-like-button" data-Like="<%=post.emojiData.like.length%>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍</a> <span class="post-reaction-like-<%=post._id%>"> <%= post.emojiData.like.length %> </span>
-                 <a class="toggle-like-button" data-Love="<%= post.emojiData.love.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>  <span class="post-reaction-love-<%=post._id%>"> <%= post.emojiData.love.length %></span>
-                   <a class="toggle-like-button" data-Sad="<%=post.emojiData.sad.length %>"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>  <span class="post-reaction-sad-<%=post._id%>">  <%= post.emojiData.sad.length %></span>
-                     <a class="toggle-like-button" data-Angry="<%= post.emojiData.angry.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>     <span class="post-reaction-angry-<%=post._id%>"> <%= post.emojiData.angry.length %></span>
-                       <a class="toggle-like-button" data-Wow="<%= post.emojiData.wow.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>       <span class="post-reaction-wow-<%=post._id%>"> <%= post.emojiData.wow.length %></span>
-       
-             
-            
-            </div>
-
-            <% } %>
-            
-            <div>
-              </div>
-            <% }else{ %>
-                <div>
-
-                    <a class="reaction-count-<%=post._id%>" data-likes="<%= post.likes.length %>" data-reactions="" disabled></a>
-                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍   </a>
-                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>
-                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>
-                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>
-                    <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>
-                  </div>
-            <% } %>
-       
-
-                <!-- end emoji part -->
-       
-        <% }else{ %>
-            <!-- <%= post.likes.length %> Likes -->
-                <p>👍 <%= post.emojiData.like.length %>
-               
-                    ❤ <%= post.emojiData.love.length %>
-                
-                    😞 <%= post.emojiData.sad.length %>
-                
-                    😡 <%= post.emojiData.angry.length %>
-                
-                    😲 <%= post.emojiData.wow.length %></p>
-
-        <% } %>
-    </small>
-
         </p>
-        <div class="post-comments">
-            <% if (locals.user){ %>
-                <!-- let's give an id to the new comment form, we'll also need to make the same changes in home_posts.js where we're adding a post to the page -->
-                <form id="post-<%= post._id %>-comments-form" action="/comments/create" method="POST">
-                    <input type="text" name="content" placeholder="Type Here to add comment..." required>
+        <% if(post.postpic.split("/")[1].split("-")[0] == "video"){ %>
 
-                    <input type="hidden" name="post" value="<%= post._id %>" >
-                    <input type="submit" value="Add Comment">
-                </form>
-    
-            <% } %>
+            <video width="320" height="240" class="img-fluid rounded" controls>
+                <source src="<%= post.postpic %>" type="video/mp4">
+              Your browser does not support the video tag.
+              </video>
+       <% } else { %>
+        <img src="<%= post.postpic %>" alt="hh" class="img-fluid rounded">
+      <% } %>
+        
+      </div>
+      <!-- likes & comments -->
+      <div class="post__comment mt-3 position-relative post-comments">
+        <!-- likes -->
+        <div
+          class="
+            d-flex
+            align-items-center
+            top-0
+            start-0
+            position-absolute
+          "
+          style="height: 50px; z-index: 5"
+        >
+        <span class="reaction-icon-<%=post._id%>"></span> 
+        <a class="reaction-count-<%=post._id%>" data-likes="" data-reactions="" disabled></a>
 
-            <div class="post-comments-list">
-                <ul id="post-comments-<%= post._id %>">
-                    <% for (comment of post.comments){%>
-
-                     <%- include('_comment') -%>
-                        
-                    
-                    <%} %>
-                </ul>
-            </div>
+       
         </div>
         
-    </li>
+        <!-- comments start-->
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item border-0">
+            <!-- comment collapse -->
+            <h2 class="accordion-header" id="headingTwo">
+              <div
+                class="
+                  accordion-button
+                  collapsed
+                  pointer
+                  d-flex
+                  justify-content-end
+                "
+                data-bs-toggle="collapse"
+                data-bs-target="#collapsePost1"
+                aria-expanded="false"
+                aria-controls="collapsePost1"
+              >
+            
+                <p class="m-0"><%= post.comments.length %> Comments</p>
+              </div>
+            </h2>
+            <hr />
+            <!-- comment & like bar -->
+            <div class="d-flex justify-content-around">
+              <div
+                class="
+                  dropdown-item
+                  rounded
+                  d-flex
+                  justify-content-center
+                  align-items-center
+                  pointer
+                  text-muted
+                  p-1
+                "
+              >
+                <!-- <i class="fas fa-thumbs-up me-3"></i>
+                <p class="m-0">Like</p> -->
+                <small>
+                    <% if (locals.user){ %>
+                        <!-- <%= post.likes %> Likes -->
+                    <!-- start emoji part -->
+                    <% if(post.emojiData){ %>
+                        <!-- <%= post.likes.length %> -->
+                       
+                        <% if(post.emojiData.post_id === post._id) { %>
+            
+                        <div>
+                            <!-- <span class="reaction-icon"></span> -->
+                              <!-- Displaying selected emoji -->
+                              <a class="toggle-like-button" data-Like="<%=post.emojiData.like.length%>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍</a> <span class="post-reaction-like-<%=post._id%>"> <%= post.emojiData.like.length %> </span>
+                             <a class="toggle-like-button" data-Love="<%= post.emojiData.love.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>  <span class="post-reaction-love-<%=post._id%>"> <%= post.emojiData.love.length %></span>
+                               <a class="toggle-like-button" data-Sad="<%=post.emojiData.sad.length %>"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>  <span class="post-reaction-sad-<%=post._id%>">  <%= post.emojiData.sad.length %></span>
+                                 <a class="toggle-like-button" data-Angry="<%= post.emojiData.angry.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>     <span class="post-reaction-angry-<%=post._id%>"> <%= post.emojiData.angry.length %></span>
+                                   <a class="toggle-like-button" data-Wow="<%= post.emojiData.wow.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>       <span class="post-reaction-wow-<%=post._id%>"> <%= post.emojiData.wow.length %></span>
+                   
+                         
+                        
+                        </div>
+            
+                        <% } %>
+                        
+                        <div>
+                          </div>
+                        <% }else{ %>
+                            <div>
+            
+                                <a class="reaction-count-<%=post._id%>" data-likes="<%= post.likes.length %>" data-reactions="" disabled></a>
+                                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Like"> 👍   </a>
+                                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Love"> ❤ </a>
+                                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Sad"> 😞</a>
+                                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Angry">😡</a>
+                                <a class="toggle-like-button"  href="/likes/toggle/?id=<%=post._id%>&type=Post&reaction=Wow">😲</a>
+                              </div>
+                        <% } %>
+                   
+            
+                            <!-- end emoji part -->
+                   
+                    <% }else{ %>
+                        <!-- <%= post.likes.length %> Likes -->
+                            <p>👍 <%= post.emojiData.like.length %>
+                           
+                                ❤ <%= post.emojiData.love.length %>
+                            
+                                😞 <%= post.emojiData.sad.length %>
+                            
+                                😡 <%= post.emojiData.angry.length %>
+                            
+                                😲 <%= post.emojiData.wow.length %></p>
+            
+                    <% } %>
+                </small>
+              </div>
+              <div
+                class="
+                  dropdown-item
+                  rounded
+                  d-flex
+                  justify-content-center
+                  align-items-center
+                  pointer
+                  text-muted
+                  p-1
+                "
+                data-bs-toggle="collapse"
+                data-bs-target="#collapsePost1"
+                aria-expanded="false"
+                aria-controls="collapsePost1"
+              >
+                <i class="fas fa-comment-alt me-3"></i>
+                <p class="m-0">Comment</p>
+              </div>
+            </div>
+            <!-- comment expand -->
+            <div
+              id="collapsePost1"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+              <hr />
+            
+              <div class="accordion-body">
+                <!-- comments -->
 
- 
+          
+                <% for (comment of post.comments){%>
+
+                  <%- include('_comment') -%>
+                     
+                 
+                 <%} %>
+
+
+
+                 <% if (locals.user){ %>
+                  <!-- let's give an id to the new comment form, we'll also need to make the same changes in home_posts.js where we're adding a post to the page -->
+                  <form id="post-<%= post._id %>-comments-form" 
+                    action="/comments/create" method="POST" class="d-flex my-1">
+                    
+                                      <!-- avatar -->
+                  <div>
+                    <img
+                      src= "<%= locals.user.avatar %>"
+                      alt="avatar"
+                      class="rounded-circle me-2"
+                      style="
+                        width: 38px;
+                        height: 38px;
+                        object-fit: cover;
+                      "
+                    />
+                  </div>
+                    <input type="text" name="content" class="form-control border-0 rounded-pill bg-gray"
+                    placeholder="Write a comment"
+                    required>
+  
+                      <input type="hidden" name="post" value="<%= post._id %>" >
+                      <input type="submit" class="btn btn-info" value="Add">
+                  </form>
+      
+              <% } %>
+       
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end -->
+      </div>
+    </div>
+  </div>

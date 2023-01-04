@@ -25,6 +25,14 @@ Required features :-
 
 7. Reactions to Posts and Comments (such as Love, Haha, Wow, Sad, Angry)
 
+
+TODOS :-
+
+
+8. Chsnge friends
+9. fix comemnt expand/compress
+10. fix signin//signup page
+11. restrict user to see the home page onlya after login
 -----------------------------------------------------------------
 
 ```

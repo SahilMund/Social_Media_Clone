@@ -111,6 +111,9 @@ module.exports.home = async function(req, res){
             angry : angry
             
         }
+
+
+     ele.postTimeStamp = ele.createdAt.toDateString();
            ele.save();
            
         });

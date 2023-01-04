@@ -1,20 +1,27 @@
 
 <link rel="stylesheet" href="/css/home.css">
 
-<div id="home-container">
+<div id="home-container" style="margin-top: 5%;">
     <section id="feed-posts">
-        <p>
-            Welcome to organization page
-        </p>
+      
+    
+    <% if(locals.user && locals.user.usertype === "Organization"){ %>
 
-    
-    
-    <% if(locals.user && locals.user.usertype === "organization"){ %>
-        <form action="/posts/create" id="new-post-form"  method="POST" enctype="multipart/form-data">
-            <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
-            <input type="file" name="postpic" placeholder="Post Picture" required>
-            <input type="submit" value="Post">
-        </form>
+        <div class="card feed-posts-form-left" >
+            <img id="frame" class="card-img-top" src="https://static.thenounproject.com/png/2616533-200.png" class=".img-rounded"/>
+            <div class="card-body">
+                <form action="/posts/create" id="new-post-form"  method="POST" enctype="multipart/form-data">
+            
+                    <textarea name="content" rows="2" cols="10" class="form-control rounded-pill border-0 bg-gray z-depth-1 mb-2"
+                  
+                    placeholder="Type Here..." required></textarea>
+                    <input type="file" class="post-iamge form-control form-control-sm mb-3" name="postpic" placeholder="Post Picture" required>
+                    <input type="submit" class="btn btn-primary" value="Post">
+
+                    
+                </form>
+            </div>
+          </div>
         <% } %>
     
         <div id="posts-list-container">

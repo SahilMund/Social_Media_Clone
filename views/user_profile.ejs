@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/user_profile.css">
 <h1>
-    Codeial / Profile Page
+    Profile Page 
 </h1>
 
 
@@ -8,26 +8,46 @@
 
 <% if(user.id == profile_user.id){ %>
 
-    <img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
-
     <!-- if user matches then show the form -->
-    <form action="/users/update-profile/<%= profile_user.id %>" enctype="multipart/form-data"  method="POST">
-        <input type="text" name="name" placeholder="Your Name" value="<%= profile_user.name %>" required>
-        <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>" required>
-        <input type="text" name="password" placeholder="Your password" value="<%= profile_user.password %>" required>
-        <input type="file" name="avatar" placeholder="Profile Picture">
-
-        <input type="submit"  value="Update">
-    </form>
     
-<%}else{%>    
 
-    <img src="<%= profile_user.avatar %>" alt="<%= profile_user.name %>" width="100">
-  
+    <div class="card profile-card" style="width: 18rem;" >
+        <img id="profile-pic-top" class="card-img-top" 
+        src= "<%= user.avatar %>" class=".img-rounded"/>
+        <div class="card-body">
 
-    <!-- else show only the profile info -->
-    <p><%= profile_user.name %></p>
-    <p><%= profile_user.email %></p>
+            <form action="/users/update-profile/<%= profile_user.id %>" enctype="multipart/form-data"  method="POST">
+                <input type="text" name="name" placeholder="Your Name" 
+                value="<%= profile_user.name %>" class="form-control rounded-pill border-0 bg-gray z-depth-1 mb-2"required>
+                <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>"
+                class="form-control rounded-pill border-0 bg-gray z-depth-1 mb-2" required>
+                <input type="text" name="password" placeholder="Your password" value="<%= profile_user.password %>" 
+                class="form-control rounded-pill border-0 bg-gray z-depth-1 mb-2"required>
+                <input type="file" name="avatar" placeholder="Profile Picture"
+                class="post-iamge form-control form-control-sm mb-3" >
+        
+                <input type="submit"  value="Update">
+            </form>
+        </div>
+      </div>
+    
+<%}else{%>      
+
+    <div class="card profile-card" style="width: 18rem;" >
+        <img id="profile-pic-top" class="card-img-top" 
+        src= "<%= profile_user.avatar %>" class=".img-rounded"/>
+        <div class="card-body">
+
+            
+                <input type="text" name="name" placeholder="Your Name" 
+                value="<%= profile_user.name %>" class="form-control rounded-pill border-0 bg-gray z-depth-1 mb-2" disabled>
+                <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>"
+                class="form-control rounded-pill border-0 bg-gray z-depth-1 mb-2" disabled>
+
+        
+          
+        </div>
+      </div>
 
 
 <%} %>
