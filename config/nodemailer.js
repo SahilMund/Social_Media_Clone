@@ -9,12 +9,13 @@ let transporter = nodemailer.createTransport({
     port: 587, // for TLS protocol
     secure: false,
     auth: {
-        user: '17gietuece032@gmail.com',
+        // removing/changing the below mail ID and password as i will be submitting it
+        user: 'ribej76380@prolug.com',    
         pass: 'jtwzpcvhnvptgfyc'
     }
 }, (err) => {
     console.log(err);
-
+return;
 });
 
 

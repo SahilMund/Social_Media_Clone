@@ -34,7 +34,7 @@
         </p>
         <% if(post.postpic.split("/")[1].split("-")[0] == "video"){ %>
 
-            <video width="320" height="240" class="img-fluid rounded" controls>
+            <video width="200" height="240" class="img-fluid rounded" controls>
                 <source src="<%= post.postpic %>" type="video/mp4">
               Your browser does not support the video tag.
               </video>
@@ -75,10 +75,7 @@
                   d-flex
                   justify-content-end
                 "
-                data-bs-toggle="collapse"
-                data-bs-target="#collapsePost1"
-                aria-expanded="false"
-                aria-controls="collapsePost1"
+            
               >
             
                 <p class="m-0"><%= post.comments.length %> Comments</p>
@@ -158,6 +155,7 @@
                 </small>
               </div>
               <div
+              id="<%= post.id %>"
                 class="
                   dropdown-item
                   rounded
@@ -167,11 +165,10 @@
                   pointer
                   text-muted
                   p-1
+                  
                 "
-                data-bs-toggle="collapse"
-                data-bs-target="#collapsePost1"
-                aria-expanded="false"
-                aria-controls="collapsePost1"
+                onclick="handleClick(this)"
+                
               >
                 <i class="fas fa-comment-alt me-3"></i>
                 <p class="m-0">Comment</p>
@@ -180,9 +177,11 @@
             <!-- comment expand -->
             <div
               id="collapsePost1"
-              class="accordion-collapse collapse"
+              class="accordion-collapse post-collapse-<%= post.id %>"
               aria-labelledby="headingTwo"
               data-bs-parent="#accordionExample"
+             
+             style="display:none"
             >
               <hr />
             

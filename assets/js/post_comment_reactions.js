@@ -9,7 +9,7 @@ class HandleReaction {
     $(this.toggler).click(function (e) {
       e.preventDefault();
       let self = this;
-
+    
       $.ajax({
         type: "POST",
         url: $(self).attr("href"),

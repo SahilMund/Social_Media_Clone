@@ -212,14 +212,17 @@ module.exports.signIn = function(req, res){
 module.exports.create = function(req, res){
 
     try{
+  
+    //as our form is multipart form, so we can't read it using req.params, so need to use multer req object
+    User.uploadedAvatar(req, res, function(err){
+        if (err) {console.log('*****Multer Error: ', err)}
+
+             
     if (req.body.password != req.body.confirm_password){
         req.flash('error', 'Passwords do not match');
         return res.redirect('back');
     }
 
-    //as our form is multipart form, so we can't read it using req.params, so need to use multer req object
-    User.uploadedAvatar(req, res, function(err){
-        if (err) {console.log('*****Multer Error: ', err)}
 
     User.findOne({email: req.body.email}, function(err, user){
         if(err){req.flash('error', err); return}

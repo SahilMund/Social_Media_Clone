@@ -1,0 +1,235 @@
+  
+  <section class="side-bar">
+    <section id="user-friends" >
+       
+    
+        <% if(locals.user){ %>
+
+            <div class="my-profile">
+                <h6>My Profile</h6>
+                <% for(u of all_users){%>
+                  
+
+                        <% if(locals.user.id === u.id && u.usertype !== "Organization" ) { %>
+                           
+           
+                            <a href="/users/profile/<%= u.id %>"><%= u.name %> | My Profile</a>
+               
+
+                    <% } } %>
+
+            </div>
+
+            <hr>
+
+            <div class="my-friends">
+                <h6>My Friends</h6>
+                <% for(u of all_users){%>
+                  
+
+                        <% if(locals.user.id !== u.id && u.usertype !== "Organization" && fList.includes(u.id)) { %>
+                            <div class="d-flex align-items-center side-bar-list justify-content-space-between ml-2">
+                                <div class="p-2">
+                                    <%if (u.avatar) { %>
+                                        <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                                       <% } else { %>
+                    
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUoIL7ZT4WdjtIUMzm9AFznA1uX1l-HUrcvg&usqp=CAU" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                    
+                                        <% } %>
+                           </div>
+                           <div>
+                            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                            |
+                           <a href="/users/profile/friends/remove-friend/<%= u.id %>"> Remove Friend </a>
+                   
+                           <i class="fa-solid fa-message <%= u.email %> <%= u.id %>"></i>
+              
+
+                           </div>
+                        </div>
+
+                    <% } } %>
+
+            </div>
+
+            <hr>
+
+            <div class="my-received">
+                <h6>Friend Requests</h6>
+                <% for(u of all_users){%>
+                  
+
+                        <% if(locals.user.id !== u.id && u.usertype !== "Organization" && receiveList.includes(u.id)) { %>
+                           
+                            <div class="d-flex align-items-center side-bar-list justify-content-space-between ml-2">
+                                <div class="p-2">
+                                    <%if (u.avatar) { %>
+                                        <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                                       <% } else { %>
+                    
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUoIL7ZT4WdjtIUMzm9AFznA1uX1l-HUrcvg&usqp=CAU" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                    
+                                        <% } %>
+                           </div>
+                           <div>
+                            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                            |
+                            <a href="/users/profile/friends/accept-request/<%= u.id %>"> Accept Request </a>
+                    
+                        </div>
+                    </div>
+
+               
+
+                    <% } } %>
+
+            </div>
+
+            <hr>
+
+            <div class="other-users">
+                <h6>Other Users</h6>
+                <% for(u of all_users){%>
+                    <% if (locals.user.id != u.id && u.usertype !== "Organization" ) {%> 
+        
+             <%  if( sendList.includes(u.id)){ %>
+                <div class="d-flex align-items-center side-bar-list justify-content-space-between ">
+                    <div class="p-2">
+                    
+                        <%if (u.avatar) { %>
+                            <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                           <% } else { %>
+        
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUoIL7ZT4WdjtIUMzm9AFznA1uX1l-HUrcvg&usqp=CAU" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+        
+                            <% } %>
+               </div>
+               <div>        
+                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+            |
+                <a href="/users/profile/friends/cancel-request/<%= u.id %>"> Cancel Request </a>
+
+            </div>
+        </div>
+
+   
+              
+        
+                <% } else if(!sendList.includes(u.id) && !receiveList.includes(u.id) && !fList.includes(u.id)) {%>
+                    <div class="d-flex align-items-center side-bar-list justify-content-space-between ml-2">
+                        <div class="p-2">
+                            <%if (u.avatar) { %>
+                    <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                   <% } else { %>
+
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUoIL7ZT4WdjtIUMzm9AFznA1uX1l-HUrcvg&usqp=CAU" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+
+                    <% } %>
+                   </div>
+                   <div>
+                        
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                  |
+                <a href="/users/profile/friends/send-request/<%= u.id %>">Add Friend</a>
+
+            </div>
+        </div>
+
+     
+            
+                <% } } }%> 
+
+            </div>
+     
+        
+
+    <% } else { %>  <!-- local users close -->
+    
+    <!--  IF USER is not logged in -->
+    
+    <% for(u of all_users){%>
+        <% if(u.usertype !== "Organization")  {%>
+   <p>
+    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+    
+    
+            </p>
+            <% } %>
+            <% } %>
+            <% } %>
+    
+        </section>
+
+        <hr/>
+
+   <section id="Organization-page">
+    <h5>Pages</h5>
+
+    <% if(locals.user){ %>
+    <% for(u of all_users){%>
+<% if (locals.user.id != u.id && u.usertype === "Organization") {%> 
+<p>
+
+     <% if (u.usertype && u.usertype === "Organization"){%>
+        
+        <% if( followerList.includes(u.id)) { %>
+            <div class="d-flex align-items-center side-bar-list justify-content-space-between ml-2">
+                <div class="p-2">
+            <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+           
+           </div>
+           <div>
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+            |
+            <a href="/users/profile/friends/remove-follow-request/<%= u.id %>">Remove Follow</a>
+
+        </div>
+    </div>
+
+    
+        <% } else { %>
+
+            <div class="d-flex align-items-center side-bar-list justify-content-space-between ml-2">
+                <div class="p-2">
+            <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+           
+           </div>
+           <div>           
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+        |
+    <a href="/users/profile/friends/follow-request/<%= u.id %>">Follow</a>
+
+</div>
+</div>
+
+            <% } } %>
+    
+</p>
+<% }else if(u.usertype === "Organization"){ %>
+    <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 48px; height: 48px; object-fit: cover">
+                        
+<a href="/users/profile/<%= u.id %>"><%= u.name %> | My Page</a>
+
+<% } %>
+<% } %>
+    
+
+<% } else { %>
+
+<!--  IF USER is not logged in -->
+
+<% for(u of all_users){%>
+<% if(u.usertype === "Organization")  {%>
+<p>
+<a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+
+        </p>
+        <% } %>
+        <% } %>
+        <% } %>
+
+    </section>
+
+
+  </section>

@@ -1,0 +1,55 @@
+<section class="side-bar">
+    <section id="Organization-page">
+    <h4>Pages</h4>
+
+    <% if(locals.user){ %>
+    <% for(u of all_users){%>
+<% if (locals.user.id != u.id && u.usertype === "Organization") {%> 
+<p>
+
+     <% if (u.usertype && u.usertype === "Organization"){%>
+        
+        <% if( followerList.includes(u.id)) { %>
+            <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 38px; height: 38px; object-fit: cover">
+                        
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+        &nbsp;
+    <a href="/users/profile/friends/remove-follow-request/<%= u.id %>">Remove Follow</a>
+        <% } else { %>
+            <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 38px; height: 38px; object-fit: cover">
+                        
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+        &nbsp;
+    <a href="/users/profile/friends/follow-request/<%= u.id %>">Follow</a>
+            <% } } %>
+    
+</p>
+<% }else if(u.usertype === "Organization"){ %>
+    <img src="<%= u.avatar %>" class="rounded-circle me-2" alt="avatar" style="width: 38px; height: 38px; object-fit: cover">
+                        
+<a href="/users/profile/<%= u.id %>"><%= u.name %> | My Page</a>
+
+<% } %>
+<% } %>
+    
+
+<% } else { %>
+
+<!--  IF USER is not logged in -->
+
+<% for(u of all_users){%>
+<% if(u.usertype === "Organization")  {%>
+<p>
+<a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+
+        </p>
+        <% } %>
+        <% } %>
+        <% } %>
+
+    </section>
+    <hr/>
+
+    
+
+</section>
