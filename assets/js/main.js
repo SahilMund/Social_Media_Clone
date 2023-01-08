@@ -30,13 +30,12 @@ eyeIcon.addEventListener("click", () => {
 
 // Showing/hiding post's comment section
 
-function handleClick(tag){
-    console.log(tag.id);
-    const did = document.querySelector('.post-collapse-'+tag.id)
-    console.log('cliecked',did);
-    if(did.style.display=='none'){
-          did.style.display='block'
+function handleClick(self){
+    const post_div_id = document.querySelector('.post-collapse-'+ self.id)
+    console.log('cliecked',post_div_id);
+    if(post_div_id.style.display=='none'){
+          post_div_id.style.display='block'
     }else{
-         did.style.display='none'
+         post_div_id.style.display='none'
     }
 }
