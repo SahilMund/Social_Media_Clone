@@ -4,7 +4,7 @@ const logger = require('morgan');
 
 
 const app = express();
-require('./config/view-helpers')(app);
+// require('./config/view-helpers')(app);
 const cookieParser = require('cookie-parser');
 // const kue = require('kue');
 
