@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 
+
+const env = require('./environment');
+
+const DB_NAME = env.db;
+
 //connect to the database
-mongoose.connect('mongodb://127.0.0.1:27017/FB_Clone_Development', 
+// MONGO_URL = mongodb+srv://SahilMund:yqMwFzKsexJZX3mx@cluster0.oekbxpu.mongodb.net/
+mongoose.connect(`${env.MONGO_URL}${DB_NAME}`, 
 { useNewUrlParser: true , useUnifiedTopology: true, useCreateIndex: true });
 
 //acquire the connection
@@ -11,7 +17,7 @@ db.on('error', console.error.bind(console, "Error connecting to MongoDB"));
 
 // once the conecction is established
 db.once('open', function(){
-    console.log('Connected to Database :: MongoDB - FB_Clone_Development');
+    console.log(`Connected to Database :: MongoDB - ${DB_NAME}`);
 });
 
 

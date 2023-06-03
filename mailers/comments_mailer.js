@@ -10,7 +10,7 @@ exports.newComment = async (comment) => {
    // let recipient = await User.findById(comment.user);
     nodeMailer.transporter.sendMail({
        from: 'ribej76380@prolug.com',
-       to: comment.user.email,
+       to: comment.user?.email || 'USER_EMAIL_NOT_FOUND',
        subject: "New Comment Published!",
        html: htmlString
     }, (err, info) => {
