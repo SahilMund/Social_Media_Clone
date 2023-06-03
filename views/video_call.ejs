@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- <link rel="stylesheet" src="style.css"> -->
+    <link rel="stylesheet" href="css/videocall.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="http://127.0.0.1:5565/socket.io/socket.io.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+  </head>
+
+  <div style="background-color: whitesmoke">
+    <div id="wrapper">
+      <div class="navbar" style="margin-top: 8%; display: flex; justify-content: center; align-items: center;">
+        <div class="filter-optn">
+          <select id="filter" class="">
+            <option value="none">Normal</option>
+            <option value="grayscale(100%)">B & W</option>
+            <option value="sepia(100%)">Old School</option>
+            <option value="contrast(150%)">Lumination</option>
+            <option value="blur(20px)">Hidden Mist</option>
+            <option value="invert(100%)">Dracula</option>
+            <option value="hue-rotate(180deg">X-men Beast</option>
+            <option value="saturate(25)">Super Saiyan God</option>
+          </select>
+        </div>
+
+        <div class="darkmode" style="margin-left: 3%">
+          <i id="theme" class="material-icons">nights_stay</i>
+          <i id="theme2" style="display: none" class="material-icons"
+            >wb_sunny</i
+          >
+        </div>
+      </div>
+
+      <div class="main">
+        <div id="video-grid"></div>
+      </div>
+      <canvas id="canvas"></canvas>
+      <hr />
+      <div class="pic-container">
+        <div id="photos"></div>
+      </div>
+      <div class="buttons">
+        <div class="footer-left">
+          <div class="btns">
+            <i id="photot-btn" class="material-icons dark-btn icns"
+              >photo_camera</i
+            >
+            <span>screenshot</span>
+          </div>
+          <div class="btns">
+            <i id="clear-btn" class="material-icons icns">delete_sweep</i>
+            <span>delete</span>
+          </div>
+          <div class="btns mute">
+            <i onclick="muteUnmute()" id="voice" class="material-icons icns"
+              >mic</i
+            >
+            <span>mute</span>
+          </div>
+
+          <div class="btns vdo">
+            <i onclick="playStop()" class="material-icons icns">videocam</i>
+            <span>stop video</span>
+          </div>
+        </div>
+        <div class="footer-right">
+          <a target="_self" href="/">
+            <i id="leave" class="material-icons icns2">exit_to_app</i>
+          </a>
+          <a target="_self" href="/">
+            <span style="color: crimson" id="leaveVideo">leave</span>
+          </a>
+        </div>
+        <!-- <canvas id="canvas"></canvas>
+      <hr />
+      <div class="pic-container ">
+        <div id="photos" class=''></div>
+      </div> -->
+      </div>
+    </div>
+
+    <!-- scripting tags -->
+
+    <script src="/js/video_call.js"></script>
+  </div>
+</html>
