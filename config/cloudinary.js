@@ -1,10 +1,10 @@
 const cloudinary = require("cloudinary").v2;
-
+const env = require('./environment');
 
 cloudinary.config({
-    cloud_name: "dvrgevpql",
-    api_key: "635781699652765",
-    api_secret: "M2FfTfdWEkx38d0x8_84nxTluU8",
+    cloud_name: env.cloudinary_cloud_name,
+    api_key: env.cloudinary_api_key,
+    api_secret: env.cloudinary_api_secret
   });
 
 module.exports = cloudinary;

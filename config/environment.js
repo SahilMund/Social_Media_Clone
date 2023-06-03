@@ -2,7 +2,7 @@ const fs = require("fs");
 const rfs = require("rotating-file-stream");
 const path = require("path");
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 const logDirectory = path.join(__dirname, "../production_logs");
@@ -15,7 +15,7 @@ const accessLogStream = rfs.createStream("access.log", {
 
 const development = {
   name: "development",
-  MONGO_URL : "mongodb://127.0.0.1:27017/",
+  MONGO_URL: "mongodb://127.0.0.1:27017/",
   asset_path: "./assets",
   session_cookie_key: "blahsomething",
   db: "FB_Clone_Development",
@@ -41,7 +41,10 @@ const development = {
     callbackURL: "http://localhost:8000/users/auth/github/callback",
   },
 
-  
+  cloudinary_cloud_name: "dvrgevpql",
+  cloudinary_api_key: "635781699652765",
+  cloudinary_api_secret: "M2FfTfdWEkx38d0x8_84nxTluU8",
+
   morgan: {
     mode: "dev",
     options: { stream: accessLogStream },
@@ -50,7 +53,7 @@ const development = {
 
 const production = {
   name: "production",
-  MONGO_URL : process.env.CODIEAL_MONGO_URI,
+  MONGO_URL: process.env.CODIEAL_MONGO_URI,
   asset_path: process.env.CODEIAL_ASSET_PATH,
   session_cookie_key: process.env.CODEIAL_SESSION_COOKIE_KEY,
   db: process.env.CODIEL_DB_NAME,
@@ -68,20 +71,23 @@ const production = {
   google_client_secret: process.env.CODEIAL_GOOGLE_CLIENT_SECRET,
   google_call_back_url: process.env.CODEIAL_GOOGLE_CALLBACK_URL,
   jwt_secret: process.env.CODEIAL_JWT_SECRET,
-github_keys: {
-  clientID: process.env.CODEIAL_GITHUB_CLIENT_ID,
-  clientSecret: process.env.CODEIAL_GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.CODEIAL_GITHUB_CALLBACK_URL
-},
+  github_keys: {
+    clientID: process.env.CODEIAL_GITHUB_CLIENT_ID,
+    clientSecret: process.env.CODEIAL_GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.CODEIAL_GITHUB_CALLBACK_URL,
+  },
   morgan: {
     mode: "combined",
     options: { stream: accessLogStream },
   },
+  cloudinary_cloud_name: process.env.CODEIAL_CLOUDINARY_CLOUD_NAME,
+  cloudinary_api_key: process.env.CODEIAL_CLOUDINARY_API_KEY,
+  cloudinary_api_secret: process.env.CODEIAL_CLOUDINARY_API_SECRET,
 };
 
 // console.log(process.env)
 
-module.exports = 
+module.exports =
   eval(process.env.NODE_ENV) == undefined
     ? development
     : eval(process.env.NODE_ENV);
