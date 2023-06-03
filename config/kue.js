@@ -1,6 +1,6 @@
-const kue = require('kue');
+// const kue = require('kue');
 
-// To create Queue 
-const queue = kue.createQueue();
+// // To create Queue 
+// const queue = kue.createQueue();
 
-module.exports = queue;
+// module.exports = queue;

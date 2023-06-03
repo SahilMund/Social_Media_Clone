@@ -1,8 +1,9 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const commentsMailer = require('../mailers/comments_mailer');
-const commentEmailWorker = require('../workers/comment_email_worker');
-const queue = require('../config/kue');
+// const commentEmailWorker = require('../workers/comment_email_worker');
+// const queue = require('../config/kue');
+
 const Like = require('../models/like');
 
 
@@ -30,14 +31,16 @@ module.exports.create = async function(req, res){
 
             //if queue is not present, it will create a new queue and push the job to it, else it will push the job
             //  Using KUE to send mails [implemineting parallel jobs]
-            let job = queue.create('emails', comment).save(function(err){
-                if (err){
-                    console.log('Error in sending to the queue', err);
-                    return;
-                }
-                console.log('job enqueued', job.id);
+            // let job = queue.create('emails', comment).save(function(err){
+            //     if (err){
+            //         console.log('Error in sending to the queue', err);
+            //         return;
+            //     }
+            //     console.log('job enqueued', job.id);
 
-            })
+            // })
+
+            commentsMailer.newComment(comment);
 
 
             req.flash('success', 'Comment published!');
