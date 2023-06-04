@@ -28,8 +28,11 @@ const customMware = require("./config/flash-middleware");
 // setup the chat server to be used with socket.io
 const chatServer = require("http").Server(app);
 const chatSockets = require("./config/chat_sockets").chatSockets(chatServer);
-chatServer.listen(5000);
-console.log("chat server is listening on port 5000..........");
+
+const { ExpressPeerServer } = require("peer");
+const peerServer = ExpressPeerServer(chatServer, {
+  debug: true,
+});
 
 //middleware used to parse the data coming from the ejs form
 app.use(express.urlencoded({ extended: true }));
@@ -95,12 +98,17 @@ app.get(`/:roomid`, (req, res) => {
   const { roomid } = req.params;
   console.log(req.params);
 
-  res.render("video_call", { title: "Codiel | Video call", roomId: roomid });
+  res.render("video_call", { title: "Codeial | Video call", roomId: roomid });
 });
 
 // set up the view engine
 app.set("view engine", "ejs");
 app.set("views", "./views");
+// Configurations
+app.use("/peerjs", peerServer);
+
+chatServer.listen(5000);
+console.log("chat server is listening on port 5000..........");
 
 app.listen(port, function (err) {
   if (err) {

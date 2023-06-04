@@ -1,6 +1,8 @@
-const socket = io.connect("http://localhost:5000", {
-  transports: ["websocket"],
-});
+const socket = io("https://instabook-9vjj.onrender.com");
+// const socket = io.connect("https://instabook-9vjj.onrender.com", {
+//   transports: ["websocket", "polling", "flashsocket"],
+// });
+
 
 const videoGrid = document.getElementById("video-grid");
 const btnTheme = document.querySelector("#theme");
@@ -26,18 +28,18 @@ let width = 300,
   myVideoStream;
 
 //   for local use :- creating a custom peer server
-// const myPeer = new Peer(undefined, {
-//     path: "/peerjs",
-//     host: "localhost",
-//     port: "5000",
-// });
-
-// For deployment :- creating a custom peer server
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "5000",
 });
+
+// For deployment :- creating a custom peer server
+// const myPeer = new Peer(undefined, {
+//   path: "/peerjs",
+//   host: "/",
+//   port: "443",
+// });
 
 const peers = {};
 const myVideo = document.createElement("video");
@@ -67,10 +69,12 @@ navigator.mediaDevices
 
     // for adding others video to my webpage
     myPeer.on("call", (call) => {
+
       call.answer(stream);
       const Video = document.createElement("video");
       // Video.classList.add('mx-3');
 
+      console.log("add others", call);
       call.on("stream", (userVideoStream) => {
         console.log("call stream ");
         addVideoStream(Video, userVideoStream);
@@ -88,7 +92,7 @@ navigator.mediaDevices
 
 // send an event to our server
 myPeer.on("open", (id) => {
-  console.log(CHAT_ROOM_ID);
+  console.log('open',CHAT_ROOM_ID);
 
   socket.emit("join-room", CHAT_ROOM_ID, id);
 });
