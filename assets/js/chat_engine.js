@@ -5,9 +5,12 @@ class ChatEngine {
     this.receiverEmail = receiverEmail;
     this.receiverId = receiverId;
     this.sendId = sendId;
-    this.socket = io.connect("http://localhost:5000", {
+    this.socket = io.connect("https://instabook-9vjj.onrender.com", {
       transports: ["websocket", "polling", "flashsocket"],
     });
+    // this.socket = io.connect("http://localhost:5000", {
+    //   transports: ["websocket", "polling", "flashsocket"],
+    // });
 
     if (this.userEmail) {
       this.connectionHandler();
@@ -62,7 +65,7 @@ class ChatEngine {
     });
 
     $(".video-icon").click(function () {
-      console.log("clicked video btn");
+      // console.log("clicked video btn");
       const chatRoom1 = `FB_${self.sendId}_${self.receiverId}`;
       const chatRoom2 = `FB_${self.receiverId}_${self.sendId}`;
       self.socket.emit("send_link", { chatRoom1, chatRoom2 });
@@ -70,10 +73,10 @@ class ChatEngine {
 
     // : send a message on clicking the send message button
     $("#send-message").click(function () {
-      console.log("presses");
+      // console.log("presses");
       let msg = $("#chat-message-input").val();
       $("#chat-message-input").val("");
-      console.log(msg);
+      // console.log(msg);
 
       if (msg != "") {
         self.socket.emit("send_message", {
@@ -121,7 +124,7 @@ class ChatEngine {
     });
 
     self.socket.on("receive_link", function (data) {
-      console.log("recieved link", data);
+      // console.log("recieved link", data);
 
       let newMessage = $("<li>");
       newMessage.append(
@@ -136,7 +139,7 @@ class ChatEngine {
 
       newMessage.addClass("self-message");
 
-      console.log(newMessage);
+      // console.log(newMessage);
 
       $("#chat-messages-list").append(newMessage);
 

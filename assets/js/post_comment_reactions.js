@@ -54,7 +54,7 @@ class HandleReaction {
             }
             case "Angry": {
               $(`.reaction-icon-${postId}`).html("😡");
-              console.log(data.data.emojiData);
+              // console.log(data.data.emojiData);
 
               displayElement.attr(`data-${myPostReaction}`, parseInt(data.data.emojiData.Angry.length));
               displayElement.html(`${parseInt(data.data.emojiData.Angry.length)} ${myPostReaction}`);

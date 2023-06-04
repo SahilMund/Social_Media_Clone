@@ -85,7 +85,6 @@ const production = {
   cloudinary_api_secret: process.env.CODEIAL_CLOUDINARY_API_SECRET,
 };
 
-// console.log(process.env)
 
 module.exports =
   eval(process.env.NODE_ENV) == undefined

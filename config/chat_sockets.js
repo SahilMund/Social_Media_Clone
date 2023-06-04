@@ -66,7 +66,6 @@ module.exports.chatSockets = function (socketServer) {
 
     socket.on("send_link", function (data) {
       try {
-        console.log("listening link send",data);
         io.in(data.chatRoom1).emit("receive_link", data);
         io.in(data.chatRoom2).emit("receive_link", data);
       } catch (err) {

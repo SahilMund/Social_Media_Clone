@@ -29,10 +29,10 @@ const customMware = require("./config/flash-middleware");
 const chatServer = require("http").Server(app);
 const chatSockets = require("./config/chat_sockets").chatSockets(chatServer);
 
-const { ExpressPeerServer } = require("peer");
-const peerServer = ExpressPeerServer(chatServer, {
-  debug: true,
-});
+// const { ExpressPeerServer } = require("peer");
+// const peerServer = ExpressPeerServer(chatServer, {
+//   debug: true,
+// });
 
 //middleware used to parse the data coming from the ejs form
 app.use(express.urlencoded({ extended: true }));
@@ -96,7 +96,7 @@ app.use(customMware.setFlash);
 app.use("/", require("./routes"));
 app.get(`/:roomid`, (req, res) => {
   const { roomid } = req.params;
-  console.log(req.params);
+  // console.log(req.params);
 
   res.render("video_call", { title: "Codeial | Video call", roomId: roomid });
 });
@@ -105,7 +105,7 @@ app.get(`/:roomid`, (req, res) => {
 app.set("view engine", "ejs");
 app.set("views", "./views");
 // Configurations
-app.use("/peerjs", peerServer);
+// app.use("/peerjs", peerServer);
 
 chatServer.listen(5000);
 console.log("chat server is listening on port 5000..........");

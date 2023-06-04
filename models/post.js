@@ -42,11 +42,11 @@ const postSchema = new mongoose.Schema({
 //setting up diskStorage for postScehma
 let poststorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log(path.join(__dirname, '..', POST_PATH));
+        // console.log(path.join(__dirname, '..', POST_PATH));
       cb(null, path.join(__dirname, '..', POST_PATH));
     },
     filename: function (req, file, cb) {
-        console.log(file);
+        // console.log(file);
       cb(null, file.mimetype.split("/")[0] + "-" + file.fieldname + '-' + Date.now());
     }
   });

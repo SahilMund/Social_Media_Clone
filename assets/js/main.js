@@ -32,7 +32,7 @@ eyeIcon.addEventListener("click", () => {
 
 function handleClick(self){
     const post_div_id = document.querySelector('.post-collapse-'+ self.id)
-    console.log('cliecked',post_div_id);
+    // console.log('cliecked',post_div_id);
     if(post_div_id.style.display=='none'){
           post_div_id.style.display='block'
     }else{

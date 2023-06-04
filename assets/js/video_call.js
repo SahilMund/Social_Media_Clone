@@ -23,9 +23,7 @@ const clearBtn = document.getElementById("clear-btn");
 const photoFilter = document.getElementById("filter");
 
 const ID = window.location.pathname;
-console.log(ID);
 const CHAT_ROOM_ID = ID.slice(1, ID.length);
-console.log("video called");
 
 // Global Vars
 let width = 300,
@@ -82,9 +80,8 @@ navigator.mediaDevices
       const Video = document.createElement("video");
       // Video.classList.add('mx-3');
 
-      console.log("add others", call);
       call.on("stream", (userVideoStream) => {
-        console.log("call stream ");
+        // console.log("call stream ");
         addVideoStream(Video, userVideoStream);
       });
     });
@@ -100,13 +97,11 @@ navigator.mediaDevices
 
 // send an event to our server
 myPeer.on("open", (id) => {
-  console.log("open", CHAT_ROOM_ID);
 
   socket.emit("join-room", CHAT_ROOM_ID, id);
 });
 
 socket.on("user-connected", (userId) => {
-  console.log("userid", userId);
   console.log("user connected :" + userId);
 });
 
@@ -122,7 +117,6 @@ socket.on("user-disconnected", (userId) => {
 myPeer.on("data", function (data) {
   let decodedData = new TextDecoder("utf-8").decode(data);
   let filerVideo = dcoument.querySelector("#peerVideo");
-  console.log(decodedData);
   filerVideo.style.filter = decodedData;
 });
 // sending filter value to the clinet
@@ -142,7 +136,6 @@ function connectToNewUser(userId, stream) {
   // Video.classList.add('my-3');
 
   call.on("stream", (userVideoStream) => {
-    console.log("streaming........");
     addVideoStream(Video, userVideoStream);
   });
   call.on("close", () => {
@@ -201,7 +194,6 @@ phototBtn.addEventListener(
 //  function takePicture
 
 function takePicture() {
-  console.log("pic");
   // create canvas
   const context = canvas.getContext("2d");
   if (width && height) {
@@ -251,7 +243,6 @@ btnTheme.addEventListener("click", () => {
     document.getElementById("theme").style.display = "none";
     document.getElementById("theme2").style.display = "inherit";
 
-    console.log("sun");
   }
 });
 document.getElementById("theme2").addEventListener("click", () => {
@@ -260,14 +251,12 @@ document.getElementById("theme2").addEventListener("click", () => {
   document.getElementById("theme2").style.display = "none";
   document.getElementById("theme").style.display = "inherit";
   document.getElementById("theme").style.color = "#212529 !important";
-  console.log("moon");
 });
 
 // -----------------------------adding mute unmute button---------------
 
 // mute or unmute our video
 const muteUnmute = () => {
-  console.log(myVideoStream);
 
   const enabled = myVideoStream.getAudioTracks()[0].enabled;
   if (enabled) {

@@ -37,7 +37,7 @@ module.exports.updateProfile = async function (req, res) {
             user.avatar = res.secure_url;
           }
 
-          console.log(user);
+          // console.log(user);
           user.save();
           req.flash("success", "Profile updated successfully !!");
           return res.redirect("back");
@@ -120,7 +120,7 @@ module.exports.acceptFriendRequest = async function (req, res) {
 
 module.exports.removeFriendRequest = async function (req, res) {
   try {
-    console.log(`${req.user.id} wants to remove ${req.params.id} as a friend`);
+    // console.log(`${req.user.id} wants to remove ${req.params.id} as a friend`);
 
     await User.findByIdAndUpdate(req.user.id, {
       $pull: { friendList: { userid: req.params.id } },
@@ -141,7 +141,7 @@ module.exports.removeFriendRequest = async function (req, res) {
 
 module.exports.followRequest = async function (req, res) {
   try {
-    console.log(`${req.user.id} wants to follow ${req.params.id}`);
+    // console.log(`${req.user.id} wants to follow ${req.params.id}`);
 
     let sender = await User.findById(req.user.id);
     let receiver = await User.findById(req.params.id);
