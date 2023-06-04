@@ -1,7 +1,16 @@
-const socket = io("https://instabook-9vjj.onrender.com");
+// const socket = io("https://instabook-9vjj.onrender.com");
 // const socket = io.connect("https://instabook-9vjj.onrender.com", {
 //   transports: ["websocket", "polling", "flashsocket"],
 // });
+
+// const socket = io("https://instabook-9vjj.onrender.com", {
+//   transports: ["websocket", "polling", "flashsocket"],
+// });
+
+// const socket = io('/');
+const socket = io.connect("http://localhost:5000", {
+  transports: ["websocket"],
+});
 
 
 const videoGrid = document.getElementById("video-grid");
@@ -69,7 +78,6 @@ navigator.mediaDevices
 
     // for adding others video to my webpage
     myPeer.on("call", (call) => {
-
       call.answer(stream);
       const Video = document.createElement("video");
       // Video.classList.add('mx-3');
@@ -92,7 +100,7 @@ navigator.mediaDevices
 
 // send an event to our server
 myPeer.on("open", (id) => {
-  console.log('open',CHAT_ROOM_ID);
+  console.log("open", CHAT_ROOM_ID);
 
   socket.emit("join-room", CHAT_ROOM_ID, id);
 });

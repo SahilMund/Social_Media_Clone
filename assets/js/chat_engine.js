@@ -5,10 +5,7 @@ class ChatEngine {
     this.receiverEmail = receiverEmail;
     this.receiverId = receiverId;
     this.sendId = sendId;
-    // this.socket = io.connect("http://localhost:5000", {
-    //   transports: ["websocket", "polling", "flashsocket"],
-    // });
-    this.socket = io.connect("https://instabook-9vjj.onrender.com", {
+    this.socket = io.connect("http://localhost:5000", {
       transports: ["websocket", "polling", "flashsocket"],
     });
 
