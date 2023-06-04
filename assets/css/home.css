@@ -1,32 +1,38 @@
 #home-container {
-  display: flex; }
-  #home-container #feed-posts {
-    width: 70%;
-    padding: 10px; }
-  #home-container .side-bar {
-    width: 30%;
-    padding: 10px;
-    border-left: 1px solid lightgrey;
-    height: 100%; }
+  display: flex;
+}
+
+#home-container #feed-posts {
+  width: 70%;
+  padding: 10px;
+}
+
+#home-container .side-bar {
+  width: 30%;
+  padding: 10px;
+  border-left: 1px solid lightgrey;
+  height: 100%;
+}
 
 
-    a{
-      text-decoration:none
-    }
+a {
+  text-decoration: none
+}
 
-    .side-bar-list{
-      margin-left: 70px;
-      margin-top: -4px;
-    }
+.side-bar-list {
+  margin-left: 70px;
+  margin-top: -4px;
+}
 
-    textarea{
-      text-align: center;
-    }
-    #feed-posts{
-      display: flex;
-    }
+textarea {
+  text-align: center;
+}
 
-    /* .feed-posts-form-left{
+#feed-posts {
+  display: flex;
+}
+
+/* .feed-posts-form-left{
       flex: 50%;
     }
 
@@ -34,24 +40,71 @@
       flex: 50%;
     } */
 
-    .feed-posts-form-left{
-      width: 120%;
-      height: 450px;
-    }
 
 
-    /* comment */
+/* Styles for the scrollable div */
+#posts-list-container {
+  height: 100vh;
+  overflow-y: auto;
+
+}
+
+/* Styling the scrollbar thumb */
+#posts-list-container::-webkit-scrollbar-thumb {
+  background-color: #888888;
+  border-radius: 5px;
+}
+
+/* Styling the scrollbar track */
+#posts-list-container::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+/* Adding an animation to the scrollbar */
+@keyframes scrollbarAnimation {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* Applying the animation to the scrollbar thumb */
+#posts-list-container::-webkit-scrollbar-thumb {
+  animation: scrollbarAnimation 2s infinite;
+}
+
+
+.feed-posts-form-left {
+  /* width: 120%;
+  height: 450px; */
+  min-width: 270px;
+  width: 500px;
+  height: 450px;
+}
+
+
+/* comment */
 .post__comment .accordion-button::after {
   margin-left: 0 !important;
   display: none !important;
 }
+
 .post__comment .accordion-button:hover {
   background: transparent !important;
   border-color: transparent !important;
 }
+
 .post__comment .accordion-button:not(.collapsed) {
   background: transparent !important;
 }
+
 .post__comment .accordion-button:not(.collapsed) {
   box-shadow: none !important;
 }
